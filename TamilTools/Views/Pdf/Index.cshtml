@@ -1,0 +1,282 @@
+﻿@{
+    ViewData["Title"] = "Image to PDF";
+}
+
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container { max-width: 520px; margin: 0 auto; }
+
+        .lang-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+        }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            gap: 4px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-option {
+            padding: 7px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s;
+        }
+
+        .lang-option.active { background: white; color: #f7971e; }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .card-header { text-align: center; margin-bottom: 32px; }
+        .card-header .icon { font-size: 48px; margin-bottom: 12px; display: block; }
+        .card-header h1 { font-size: 26px; color: #1a1a2e; font-weight: 800; margin-bottom: 6px; }
+        .card-header p { color: #888; font-size: 14px; }
+
+        .upload-area {
+            border: 2.5px dashed #f7971e;
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            background: #fffbf0;
+        }
+
+        .upload-area:hover { background: #fff3d0; }
+
+        .upload-area .upload-icon { font-size: 48px; margin-bottom: 12px; display: block; }
+
+        .upload-area p {
+            color: #888;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .upload-area strong {
+            color: #f7971e;
+            font-size: 16px;
+        }
+
+        #fileInput { display: none; }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .preview-item {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #eee;
+            aspect-ratio: 1;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .file-count {
+            text-align: center;
+            color: #f7971e;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(247,151,30,0.4);
+        }
+
+        .calc-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-box {
+            background: #fff0f0;
+            border: 2px solid #ffcccc;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            color: #e74c3c;
+            font-weight: 600;
+            margin-top: 16px;
+        }
+
+        .info-box {
+            background: #fffbf0;
+            border: 2px solid #ffe0a0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .info-box p {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .info-box p:last-child { margin-bottom: 0; }
+        .info-box span { color: #f7971e; font-weight: 600; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="lang-toggle">
+        <div class="lang-btn">
+            <button class="lang-option active" onclick="setLang('ta')" id="btn-ta">தமிழ்</button>
+            <button class="lang-option" onclick="setLang('en')" id="btn-en">English</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="icon">🖼️➡️📄</span>
+            <h1 id="title">படம் to PDF</h1>
+            <p id="subtitle">உங்கள் படங்களை PDF-ஆக மாற்றுங்கள்</p>
+        </div>
+
+        <form method="post" action="/Pdf/Convert" enctype="multipart/form-data">
+            <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                <span class="upload-icon">📁</span>
+                <strong id="uploadTitle">படங்களை தேர்வு செய்யுங்கள்</strong>
+                <p id="uploadSub">JPG, PNG, JPEG — பல படங்கள் தேர்வு செய்யலாம்</p>
+            </div>
+
+            <input type="file" id="fileInput" name="images"
+                   accept="image/*" multiple
+                   onchange="previewImages(this)" />
+
+            <div id="previewGrid" class="preview-grid" style="display:none;"></div>
+            <div id="fileCount" class="file-count" style="display:none;"></div>
+
+            <button type="submit" class="calc-btn" id="convertBtn">
+                📄 PDF-ஆக மாற்று
+            </button>
+        </form>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-box">⚠️ @ViewBag.Error</div>
+        }
+
+        <div class="info-box">
+            <p>✅ <span id="info1">பல படங்களை ஒரே PDF-ல் சேர்க்கலாம்</span></p>
+            <p>✅ <span id="info2">A4 size-ல் automatic fit ஆகும்</span></p>
+            <p>✅ <span id="info3">முற்றிலும் இலவசம்</span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewImages(input) {
+        const grid = document.getElementById('previewGrid');
+        const count = document.getElementById('fileCount');
+        grid.innerHTML = '';
+
+        if (input.files && input.files.length > 0) {
+            grid.style.display = 'grid';
+            count.style.display = 'block';
+            count.innerText = input.files.length + ' படங்கள் தேர்வு செய்யப்பட்டது';
+
+            Array.from(input.files).slice(0, 6).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = '<img src="' + e.target.result + '" />';
+                    grid.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+
+    const text = {
+        ta: {
+            title: "படம் to PDF",
+            subtitle: "உங்கள் படங்களை PDF-ஆக மாற்றுங்கள்",
+            uploadTitle: "படங்களை தேர்வு செய்யுங்கள்",
+            uploadSub: "JPG, PNG, JPEG — பல படங்கள் தேர்வு செய்யலாம்",
+            convertBtn: "📄 PDF-ஆக மாற்று",
+            info1: "பல படங்களை ஒரே PDF-ல் சேர்க்கலாம்",
+            info2: "A4 size-ல் automatic fit ஆகும்",
+            info3: "முற்றிலும் இலவசம்"
+        },
+        en: {
+            title: "Image to PDF",
+            subtitle: "Convert your images to PDF instantly",
+            uploadTitle: "Select Images",
+            uploadSub: "JPG, PNG, JPEG — Multiple images supported",
+            convertBtn: "📄 Convert to PDF",
+            info1: "Combine multiple images in one PDF",
+            info2: "Auto fits to A4 size",
+            info3: "Completely Free"
+        }
+    };
+
+    function setLang(lang) {
+        const t = text[lang];
+        const ids = ['title','subtitle','uploadTitle','uploadSub','convertBtn',
+                     'info1','info2','info3'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = t[id];
+        });
+        document.getElementById('btn-ta').classList.toggle('active', lang === 'ta');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    }
+</script>
+</body>
+</html>
