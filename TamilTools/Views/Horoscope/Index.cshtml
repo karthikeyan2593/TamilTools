@@ -1,0 +1,367 @@
+﻿@{
+    ViewData["Title"] = "Horoscope Matching";
+    var nakshatras = ViewBag.Nakshatras as string[];
+}
+
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horoscope Matching</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container { max-width: 600px; margin: 0 auto; }
+
+        .lang-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+        }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .lang-option {
+            padding: 7px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            transition: all 0.3s;
+        }
+
+        .lang-option.active { background: white; color: #302b63; }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 36px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .card-header { text-align: center; margin-bottom: 32px; }
+        .card-header .icon { font-size: 52px; margin-bottom: 12px; display: block; }
+        .card-header h1 { font-size: 26px; color: white; font-weight: 800; margin-bottom: 6px; }
+        .card-header p { color: rgba(255,255,255,0.5); font-size: 14px; }
+
+        .couple-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .person-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .person-box.boy { border-top: 3px solid #4fc3f7; }
+        .person-box.girl { border-top: 3px solid #f48fb1; }
+
+        .person-icon {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .person-box label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .person-box select {
+            width: 100%;
+            padding: 10px;
+            border: 1.5px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            font-size: 13px;
+            color: white;
+            background: rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+
+        .person-box select:focus {
+            outline: none;
+            border-color: #a78bfa;
+        }
+
+        .person-box select option { background: #302b63; }
+
+        .calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(167,139,250,0.4);
+        }
+
+        /* Result */
+        .score-box {
+            text-align: center;
+            padding: 28px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .score-box.excellent { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .score-box.good { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .score-box.average { background: linear-gradient(135deg, #f7971e, #ffd200); }
+        .score-box.poor { background: linear-gradient(135deg, #eb3349, #f45c43); }
+
+        .score-box .pair-names {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+        }
+
+        .score-box .score-num {
+            font-size: 56px;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+        }
+
+        .score-box .score-max {
+            font-size: 20px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .score-box .match-level {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-top: 8px;
+        }
+
+        /* Porutham Table */
+        .porutham-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .porutham-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .porutham-name {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+        }
+
+        .porutham-status {
+            font-size: 18px;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 28px;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="lang-toggle">
+        <div class="lang-btn">
+            <button class="lang-option active" onclick="setLang('ta')" id="btn-ta">தமிழ்</button>
+            <button class="lang-option" onclick="setLang('en')" id="btn-en">English</button>
+            <button class="lang-option" onclick="setLang('hi')" id="btn-hi">हिंदी</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="icon">🌟</span>
+            <h1 id="title">நட்சத்திர பொருத்தம்</h1>
+            <p id="subtitle">திருமண பொருத்தம் கண்டறியுங்கள்</p>
+        </div>
+
+        <form method="post" action="/Horoscope/Match">
+            <div class="couple-grid">
+                <div class="person-box boy">
+                    <span class="person-icon">👨</span>
+                    <label id="boyLabel">பையன் நட்சத்திரம்</label>
+                    <select name="boyNakshatra" id="boySelect">
+                        @if (nakshatras != null)
+                        {
+                            for (int i = 0; i < nakshatras.Length; i++)
+                            {
+                                if (ViewBag.BoyNakshatra != null && ViewBag.BoyNakshatra == i)
+                                {
+                                    <option value="@i" selected>@nakshatras[i]</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">@nakshatras[i]</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="person-box girl">
+                    <span class="person-icon">👩</span>
+                    <label id="girlLabel">பெண் நட்சத்திரம்</label>
+                    <select name="girlNakshatra" id="girlSelect">
+                        @if (nakshatras != null)
+                        {
+                            for (int i = 0; i < nakshatras.Length; i++)
+                            {
+                                if (ViewBag.GirlNakshatra != null && ViewBag.GirlNakshatra == i)
+                                {
+                                    <option value="@i" selected>@nakshatras[i]</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">@nakshatras[i]</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="calc-btn" id="matchBtn">🌟 பொருத்தம் பார்க்க</button>
+        </form>
+    </div>
+
+    @if (ViewBag.Results != null)
+    {
+        var results = ViewBag.Results as List<(string Name, int Score, int Max, string Status)>;
+        string levelClass = ViewBag.MatchLevel == "Excellent" ? "excellent" :
+                            ViewBag.MatchLevel == "Good" ? "good" :
+                            ViewBag.MatchLevel == "Average" ? "average" : "poor";
+
+        <div class="result-card">
+            <div class="score-box @levelClass">
+                <div class="pair-names">
+                    @(nakshatras[ViewBag.BoyNakshatra]) ❤️ @(nakshatras[ViewBag.GirlNakshatra])
+                </div>
+                <div>
+                    <span class="score-num">@ViewBag.TotalScore</span>
+                    <span class="score-max">/ @ViewBag.MaxScore</span>
+                </div>
+                <div class="match-level" id="matchLevelText">
+                    @(ViewBag.MatchLevel == "Excellent" ? "மிக நல்லது ✨" :
+                      ViewBag.MatchLevel == "Good" ? "நல்லது 👍" :
+                      ViewBag.MatchLevel == "Average" ? "சாதாரணம் 🤔" : "பொருத்தமில்லை ❌")
+                </div>
+            </div>
+
+            <div class="result-title" id="porutthamTitle">பொருத்த விவரம்</div>
+
+            <div class="porutham-grid">
+                @foreach (var r in results)
+                {
+                    <div class="porutham-item">
+                        <span class="porutham-name">@r.Name</span>
+                        <span class="porutham-status">@(r.Status == "Good" ? "✅" : "❌")</span>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    const text = {
+        ta: {
+            title: "நட்சத்திர பொருத்தம்",
+            subtitle: "திருமண பொருத்தம் கண்டறியுங்கள்",
+            boyLabel: "பையன் நட்சத்திரம்",
+            girlLabel: "பெண் நட்சத்திரம்",
+            matchBtn: "🌟 பொருத்தம் பார்க்க",
+            porutthamTitle: "பொருத்த விவரம்"
+        },
+        en: {
+            title: "Horoscope Matching",
+            subtitle: "Find your marriage compatibility",
+            boyLabel: "Boy's Nakshatra",
+            girlLabel: "Girl's Nakshatra",
+            matchBtn: "🌟 Check Compatibility",
+            porutthamTitle: "Compatibility Details"
+        },
+        hi: {
+            title: "कुंडली मिलान",
+            subtitle: "विवाह अनुकूलता जांचें",
+            boyLabel: "लड़के का नक्षत्र",
+            girlLabel: "लड़की का नक्षत्र",
+            matchBtn: "🌟 मिलान देखें",
+            porutthamTitle: "मिलान विवरण"
+        }
+    };
+
+    function setLang(lang) {
+        const t = text[lang];
+        const ids = ['title','subtitle','boyLabel','girlLabel','matchBtn','porutthamTitle'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = t[id];
+        });
+        document.getElementById('btn-ta').classList.toggle('active', lang === 'ta');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-hi').classList.toggle('active', lang === 'hi');
+    }
+</script>
+</body>
+</html>
