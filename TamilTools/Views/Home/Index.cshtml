@@ -1,8 +1,274 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "TamilTools - Free Online Tools";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TamilTools - Free Online Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0d0d1a;
+            min-height: 100vh;
+            color: white;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            opacity: 0.8;
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+
+        .lang-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0;
+        }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .lang-option {
+            padding: 7px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s;
+        }
+
+        .lang-option.active { background: white; color: #667eea; }
+
+        /* Tools Grid */
+        .tools-section {
+            padding: 50px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .tool-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 28px 24px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .tool-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .tool-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .tool-desc {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.5;
+        }
+
+        .tool-tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-finance { background: rgba(102,126,234,0.2); color: #667eea; }
+        .tag-pdf { background: rgba(247,151,30,0.2); color: #f7971e; }
+        .tag-currency { background: rgba(233,69,96,0.2); color: #e94560; }
+        .tag-astro { background: rgba(167,139,250,0.2); color: #a78bfa; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 24px 20px;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 13px;
+        }
+
+        footer a { color: rgba(255,255,255,0.5); text-decoration: none; margin: 0 10px; }
+        footer a:hover { color: white; }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1 id="heroTitle">🛠️ TamilTools</h1>
+        <p id="heroSubtitle">இலவச ஆன்லைன் கருவிகள் — தமிழில்!</p>
+        <div class="lang-toggle">
+            <div class="lang-btn">
+                <button class="lang-option active" onclick="setLang('ta')" id="btn-ta">தமிழ்</button>
+                <button class="lang-option" onclick="setLang('en')" id="btn-en">English</button>
+                <button class="lang-option" onclick="setLang('hi')" id="btn-hi">हिंदी</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="tools-section">
+        <div class="section-title" id="sectionTitle">எங்கள் கருவிகள்</div>
+        <div class="tools-grid">
+
+            <a href="/Emi/Index" class="tool-card">
+                <span class="tool-icon">🏦</span>
+                <div class="tool-name" id="tool1Name">EMI கணக்கீடு</div>
+                <div class="tool-desc" id="tool1Desc">கடன் மாத தவணை கணக்கிடுங்கள்</div>
+                <span class="tool-tag tag-finance" id="tool1Tag">நிதி</span>
+            </a>
+
+            <a href="/Salary/Index" class="tool-card">
+                <span class="tool-icon">💰</span>
+                <div class="tool-name" id="tool2Name">சம்பள கணக்கீடு</div>
+                <div class="tool-desc" id="tool2Desc">கையில் கிடைக்கும் சம்பளம் கணக்கிடுங்கள்</div>
+                <span class="tool-tag tag-finance" id="tool2Tag">நிதி</span>
+            </a>
+
+            <a href="/Pdf/Index" class="tool-card">
+                <span class="tool-icon">🖼️</span>
+                <div class="tool-name" id="tool3Name">படம் to PDF</div>
+                <div class="tool-desc" id="tool3Desc">படங்களை PDF-ஆக மாற்றுங்கள்</div>
+                <span class="tool-tag tag-pdf" id="tool3Tag">PDF</span>
+            </a>
+
+            <a href="/Currency/Index" class="tool-card">
+                <span class="tool-icon">💱</span>
+                <div class="tool-name" id="tool4Name">நாணய மாற்றி</div>
+                <div class="tool-desc" id="tool4Desc">உலக நாணயங்களை மாற்றுங்கள்</div>
+                <span class="tool-tag tag-currency" id="tool4Tag">நாணயம்</span>
+            </a>
+
+            <a href="/Horoscope/Index" class="tool-card">
+                <span class="tool-icon">🌟</span>
+                <div class="tool-name" id="tool5Name">நட்சத்திர பொருத்தம்</div>
+                <div class="tool-desc" id="tool5Desc">திருமண பொருத்தம் கண்டறியுங்கள்</div>
+                <span class="tool-tag tag-astro" id="tool5Tag">ஜோதிடம்</span>
+            </a>
+
+        </div>
+    </div>
+
+    <footer>
+        <div>© 2025 TamilTools — அனைத்தும் இலவசம்</div>
+        <div style="margin-top:8px;">
+            <a href="/Home/Privacy">Privacy Policy</a>
+        </div>
+    </footer>
+
+<script>
+    const text = {
+        ta: {
+            heroTitle: "🛠️ TamilTools",
+            heroSubtitle: "இலவச ஆன்லைன் கருவிகள் — தமிழில்!",
+            sectionTitle: "எங்கள் கருவிகள்",
+            tool1Name: "EMI கணக்கீடு", tool1Desc: "கடன் மாத தவணை கணக்கிடுங்கள்", tool1Tag: "நிதி",
+            tool2Name: "சம்பள கணக்கீடு", tool2Desc: "கையில் கிடைக்கும் சம்பளம் கணக்கிடுங்கள்", tool2Tag: "நிதி",
+            tool3Name: "படம் to PDF", tool3Desc: "படங்களை PDF-ஆக மாற்றுங்கள்", tool3Tag: "PDF",
+            tool4Name: "நாணய மாற்றி", tool4Desc: "உலக நாணயங்களை மாற்றுங்கள்", tool4Tag: "நாணயம்",
+            tool5Name: "நட்சத்திர பொருத்தம்", tool5Desc: "திருமண பொருத்தம் கண்டறியுங்கள்", tool5Tag: "ஜோதிடம்"
+        },
+        en: {
+            heroTitle: "🛠️ TamilTools",
+            heroSubtitle: "Free Online Tools — In Tamil!",
+            sectionTitle: "Our Tools",
+            tool1Name: "EMI Calculator", tool1Desc: "Calculate your loan EMI instantly", tool1Tag: "Finance",
+            tool2Name: "Salary Calculator", tool2Desc: "Calculate your in-hand salary", tool2Tag: "Finance",
+            tool3Name: "Image to PDF", tool3Desc: "Convert images to PDF easily", tool3Tag: "PDF",
+            tool4Name: "Currency Converter", tool4Desc: "Convert world currencies instantly", tool4Tag: "Currency",
+            tool5Name: "Horoscope Matching", tool5Desc: "Find marriage compatibility", tool5Tag: "Astrology"
+        },
+        hi: {
+            heroTitle: "🛠️ TamilTools",
+            heroSubtitle: "मुफ्त ऑनलाइन टूल्स!",
+            sectionTitle: "हमारे टूल्स",
+            tool1Name: "EMI कैलकुलेटर", tool1Desc: "लोन की मासिक किस्त जानें", tool1Tag: "वित्त",
+            tool2Name: "वेतन कैलकुलेटर", tool2Desc: "इन-हैंड सैलरी जानें", tool2Tag: "वित्त",
+            tool3Name: "इमेज to PDF", tool3Desc: "तस्वीरें PDF में बदलें", tool3Tag: "PDF",
+            tool4Name: "मुद्रा परिवर्तक", tool4Desc: "विश्व मुद्राएं बदलें", tool4Tag: "मुद्रा",
+            tool5Name: "कुंडली मिलान", tool5Desc: "विवाह अनुकूलता जांचें", tool5Tag: "ज्योतिष"
+        }
+    };
+
+    function setLang(lang) {
+        const t = text[lang];
+        const ids = ['heroTitle','heroSubtitle','sectionTitle',
+                     'tool1Name','tool1Desc','tool1Tag',
+                     'tool2Name','tool2Desc','tool2Tag',
+                     'tool3Name','tool3Desc','tool3Tag',
+                     'tool4Name','tool4Desc','tool4Tag',
+                     'tool5Name','tool5Desc','tool5Tag'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = t[id];
+        });
+        ['ta','en','hi'].forEach(l => {
+            document.getElementById('btn-' + l).classList.toggle('active', l === lang);
+        });
+    }
+</script>
+</body>
+</html>
