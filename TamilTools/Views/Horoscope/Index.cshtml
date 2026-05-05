@@ -1,8 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Horoscope Matching";
-    var nakshatras = ViewBag.Nakshatras as string[];
+    ViewData["Title"] = "நட்சத்திர பொருத்தம் - Horoscope Matching Tamil";
+    ViewData["Description"] = "தமிழில் திருமண பொருத்தம் கண்டறியுங்கள். நட்சத்திர பொருத்தம், 10 பொருத்தங்கள் check பண்ணுங்கள்.";
+    ViewData["Keywords"] = "horoscope matching tamil, நட்சத்திர பொருத்தம், திருமண பொருத்தம், nakshatra matching tamil";
 }
-
 <!DOCTYPE html>
 <html lang="ta">
 <head>
@@ -242,17 +242,17 @@
                     <span class="person-icon">👨</span>
                     <label id="boyLabel">பையன் நட்சத்திரம்</label>
                     <select name="boyNakshatra" id="boySelect">
-                        @if (nakshatras != null)
+                        @if (ViewBag.Nakshatras != null)
                         {
-                            for (int i = 0; i < nakshatras.Length; i++)
+                            for (int i = 0; i < ViewBag.nakshatras.Length; i++)
                             {
                                 if (ViewBag.BoyNakshatra != null && ViewBag.BoyNakshatra == i)
                                 {
-                                    <option value="@i" selected>@nakshatras[i]</option>
+                                    <option value="@i">@ViewBag.Nakshatras[i]</option>
                                 }
                                 else
                                 {
-                                    <option value="@i">@nakshatras[i]</option>
+                                   <option value="@i">@ViewBag.Nakshatras[i]</option>
                                 }
                             }
                         }
@@ -263,17 +263,17 @@
                     <span class="person-icon">👩</span>
                     <label id="girlLabel">பெண் நட்சத்திரம்</label>
                     <select name="girlNakshatra" id="girlSelect">
-                        @if (nakshatras != null)
+                        @if (ViewBag.nakshatras != null)
                         {
-                            for (int i = 0; i < nakshatras.Length; i++)
+                            for (int i = 0; i < ViewBag.nakshatras.Length; i++)
                             {
                                 if (ViewBag.GirlNakshatra != null && ViewBag.GirlNakshatra == i)
                                 {
-                                    <option value="@i" selected>@nakshatras[i]</option>
+                                   <option value="@i">@ViewBag.Nakshatras[i]</option>
                                 }
                                 else
                                 {
-                                    <option value="@i">@nakshatras[i]</option>
+                                    <option value="@i">@ViewBag.nakshatras[i]</option>
                                 }
                             }
                         }
@@ -295,7 +295,7 @@
         <div class="result-card">
             <div class="score-box @levelClass">
                 <div class="pair-names">
-                    @(nakshatras[ViewBag.BoyNakshatra]) ❤️ @(nakshatras[ViewBag.GirlNakshatra])
+                    @(ViewBag.Nakshatras[ViewBag.BoyNakshatra]) ❤️ @(ViewBag.Nakshatras[ViewBag.GirlNakshatra])
                 </div>
                 <div>
                     <span class="score-num">@ViewBag.TotalScore</span>
