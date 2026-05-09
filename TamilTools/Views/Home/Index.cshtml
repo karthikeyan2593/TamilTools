@@ -20,7 +20,6 @@
             color: white;
         }
 
-        /* Hero */
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 60px 20px;
@@ -44,7 +43,6 @@
         .lang-toggle {
             display: flex;
             justify-content: center;
-            margin-bottom: 0;
         }
 
         .lang-btn {
@@ -69,7 +67,6 @@
 
         .lang-option.active { background: white; color: #667eea; }
 
-        /* Tools Grid */
         .tools-section {
             padding: 50px 20px;
             max-width: 900px;
@@ -142,8 +139,8 @@
         .tag-pdf { background: rgba(247,151,30,0.2); color: #f7971e; }
         .tag-currency { background: rgba(233,69,96,0.2); color: #e94560; }
         .tag-astro { background: rgba(167,139,250,0.2); color: #a78bfa; }
+        .tag-news { background: rgba(231,76,60,0.2); color: #e74c3c; }
 
-        /* Footer */
         footer {
             border-top: 1px solid rgba(255,255,255,0.1);
             padding: 24px 20px;
@@ -158,7 +155,6 @@
 </head>
 <body>
 
-    <!-- Hero -->
     <div class="hero">
         <h1 id="heroTitle">🛠️ TamilTools</h1>
         <p id="heroSubtitle">இலவச ஆன்லைன் கருவிகள் — தமிழில்!</p>
@@ -171,7 +167,6 @@
         </div>
     </div>
 
-    <!-- Tools -->
     <div class="tools-section">
         <div class="section-title" id="sectionTitle">எங்கள் கருவிகள்</div>
         <div class="tools-grid">
@@ -211,6 +206,13 @@
                 <span class="tool-tag tag-astro" id="tool5Tag">ஜோதிடம்</span>
             </a>
 
+            <a href="/News/Index" class="tool-card">
+                <span class="tool-icon">📰</span>
+                <div class="tool-name" id="tool6Name">Tamil செய்திகள்</div>
+                <div class="tool-desc" id="tool6Desc">தினமும் புதிய Tamil செய்திகள் — Auto Updated!</div>
+                <span class="tool-tag tag-news" id="tool6Tag">செய்திகள்</span>
+            </a>
+
         </div>
     </div>
 
@@ -231,7 +233,8 @@
             tool2Name: "சம்பள கணக்கீடு", tool2Desc: "கையில் கிடைக்கும் சம்பளம் கணக்கிடுங்கள்", tool2Tag: "நிதி",
             tool3Name: "படம் to PDF", tool3Desc: "படங்களை PDF-ஆக மாற்றுங்கள்", tool3Tag: "PDF",
             tool4Name: "நாணய மாற்றி", tool4Desc: "உலக நாணயங்களை மாற்றுங்கள்", tool4Tag: "நாணயம்",
-            tool5Name: "நட்சத்திர பொருத்தம்", tool5Desc: "திருமண பொருத்தம் கண்டறியுங்கள்", tool5Tag: "ஜோதிடம்"
+            tool5Name: "நட்சத்திர பொருத்தம்", tool5Desc: "திருமண பொருத்தம் கண்டறியுங்கள்", tool5Tag: "ஜோதிடம்",
+            tool6Name: "Tamil செய்திகள்", tool6Desc: "தினமும் புதிய Tamil செய்திகள் — Auto Updated!", tool6Tag: "செய்திகள்"
         },
         en: {
             heroTitle: "🛠️ TamilTools",
@@ -241,7 +244,8 @@
             tool2Name: "Salary Calculator", tool2Desc: "Calculate your in-hand salary", tool2Tag: "Finance",
             tool3Name: "Image to PDF", tool3Desc: "Convert images to PDF easily", tool3Tag: "PDF",
             tool4Name: "Currency Converter", tool4Desc: "Convert world currencies instantly", tool4Tag: "Currency",
-            tool5Name: "Horoscope Matching", tool5Desc: "Find marriage compatibility", tool5Tag: "Astrology"
+            tool5Name: "Horoscope Matching", tool5Desc: "Find marriage compatibility", tool5Tag: "Astrology",
+            tool6Name: "Tamil News", tool6Desc: "Daily Tamil news — Auto Updated!", tool6Tag: "News"
         },
         hi: {
             heroTitle: "🛠️ TamilTools",
@@ -251,7 +255,8 @@
             tool2Name: "वेतन कैलकुलेटर", tool2Desc: "इन-हैंड सैलरी जानें", tool2Tag: "वित्त",
             tool3Name: "इमेज to PDF", tool3Desc: "तस्वीरें PDF में बदलें", tool3Tag: "PDF",
             tool4Name: "मुद्रा परिवर्तक", tool4Desc: "विश्व मुद्राएं बदलें", tool4Tag: "मुद्रा",
-            tool5Name: "कुंडली मिलान", tool5Desc: "विवाह अनुकूलता जांचें", tool5Tag: "ज्योतिष"
+            tool5Name: "कुंडली मिलान", tool5Desc: "विवाह अनुकूलता जांचें", tool5Tag: "ज्योतिष",
+            tool6Name: "Tamil समाचार", tool6Desc: "रोज़ाना Tamil समाचार — Auto Updated!", tool6Tag: "समाचार"
         }
     };
 
@@ -262,7 +267,8 @@
                      'tool2Name','tool2Desc','tool2Tag',
                      'tool3Name','tool3Desc','tool3Tag',
                      'tool4Name','tool4Desc','tool4Tag',
-                     'tool5Name','tool5Desc','tool5Tag'];
+                     'tool5Name','tool5Desc','tool5Tag',
+                     'tool6Name','tool6Desc','tool6Tag'];
         ids.forEach(id => {
             const el = document.getElementById(id);
             if (el) el.innerText = t[id];
