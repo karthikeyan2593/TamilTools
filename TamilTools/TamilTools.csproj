@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="iTextSharp" Version="5.5.13.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="RestSharp" Version="114.0.0" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="10.0.7" />
   </ItemGroup>
 
