@@ -1,4 +1,4 @@
 ﻿User-agent: *
 Allow: /
 
-Sitemap: https://tamiltools.onrender.com/sitemap.xml
+Sitemap: https://tamiltools.co.in/sitemap.xml
