@@ -1,368 +1,496 @@
 ﻿@{
-    ViewData["Title"] = "Image to PDF";
+    ViewData["Title"] = "Image to PDF - TamilTools";
+
+    ViewData["Description"] = "Convert JPG, PNG, JPEG images into PDF online for free.";
+
+    ViewData["Keywords"] = "image to pdf, jpg to pdf, png to pdf, pdf converter";
 }
 
 <!DOCTYPE html>
-<html lang="ta">
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Image to PDF</title>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
-            min-height: 100vh;
-            padding: 30px 20px;
-        }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        .container { max-width: 520px; margin: 0 auto; }
+            body {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                background: linear-gradient(135deg,#f7971e 0%,#ffd200 100%);
+                min-height: 100vh;
+                padding: 30px 20px;
+            }
 
-        .lang-toggle {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 16px;
-        }
+            .container {
+                max-width: 1100px;
+                margin: 0 auto;
+            }
 
-        .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border-radius: 50px;
-            padding: 5px;
-            display: flex;
-            gap: 4px;
-            backdrop-filter: blur(10px);
-        }
+            .card {
+                background: white;
+                border-radius: 24px;
+                padding: 36px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+                position: relative;
+            }
 
-        .lang-option {
-            padding: 7px 18px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s;
-        }
+            .home-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: #f7971e;
+                color: white;
+                padding: 10px 16px;
+                border-radius: 10px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 14px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            }
 
-        .lang-option.active { background: white; color: #f7971e; }
+            .card-header {
+                text-align: center;
+                margin-bottom: 32px;
+                margin-top: 30px;
+            }
 
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 36px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            position: relative;
-        }
+                .card-header .icon {
+                    font-size: 48px;
+                    margin-bottom: 12px;
+                    display: block;
+                }
 
-        .home-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+                .card-header h1 {
+                    font-size: 34px;
+                    color: #1a1a2e;
+                    font-weight: 800;
+                    margin-bottom: 10px;
+                }
 
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+                .card-header p {
+                    color: #777;
+                    font-size: 15px;
+                }
 
-            background: #f7971e;
-            color: white;
+            .upload-area {
+                border: 2.5px dashed #f7971e;
+                border-radius: 16px;
+                padding: 50px 20px;
+                text-align: center;
+                cursor: pointer;
+                transition: 0.3s;
+                margin-bottom: 20px;
+                background: #fffbf0;
+            }
 
-            padding: 10px 16px;
-            border-radius: 10px;
+                .upload-area:hover {
+                    background: #fff3d0;
+                }
 
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
+                .upload-area .upload-icon {
+                    font-size: 54px;
+                    margin-bottom: 14px;
+                    display: block;
+                }
 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
+                .upload-area strong {
+                    color: #f7971e;
+                    font-size: 22px;
+                    display: block;
+                    margin-bottom: 8px;
+                }
 
-        .card-header {
-            text-align: center;
-            margin-bottom: 32px;
-            margin-top: 30px;
-        }
+                .upload-area p {
+                    color: #777;
+                    font-size: 15px;
+                }
 
-        .card-header .icon { font-size: 48px; margin-bottom: 12px; display: block; }
-        .card-header h1 { font-size: 26px; color: #1a1a2e; font-weight: 800; margin-bottom: 6px; }
-        .card-header p { color: #888; font-size: 14px; }
+            #fileInput {
+                display: none;
+            }
 
-        .upload-area {
-            border: 2.5px dashed #f7971e;
-            border-radius: 16px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-            background: #fffbf0;
-        }
+            .preview-grid {
+                display: grid;
+                grid-template-columns: repeat(3,1fr);
+                gap: 10px;
+                margin-bottom: 20px;
+            }
 
-        .upload-area:hover { background: #fff3d0; }
+            .preview-item {
+                border-radius: 10px;
+                overflow: hidden;
+                border: 2px solid #eee;
+                aspect-ratio: 1;
+            }
 
-        .upload-area .upload-icon { font-size: 48px; margin-bottom: 12px; display: block; }
+                .preview-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
 
-        .upload-area p {
-            color: #888;
-            font-size: 14px;
-            margin-top: 8px;
-        }
+            .file-count {
+                text-align: center;
+                color: #f7971e;
+                font-weight: 700;
+                font-size: 14px;
+                margin-bottom: 16px;
+            }
 
-        .upload-area strong {
-            color: #f7971e;
-            font-size: 16px;
-        }
+            .calc-btn {
+                width: 100%;
+                padding: 18px;
+                background: linear-gradient(135deg,#f7971e,#ffd200);
+                color: white;
+                border: none;
+                border-radius: 14px;
+                font-size: 18px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: 0.3s;
+            }
 
-        #fileInput { display: none; }
+                .calc-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(247,151,30,0.4);
+                }
 
-        .preview-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+            .error-box {
+                background: #fff0f0;
+                border: 2px solid #ffcccc;
+                border-radius: 12px;
+                padding: 16px;
+                text-align: center;
+                color: #e74c3c;
+                font-weight: 600;
+                margin-top: 16px;
+            }
 
-        .preview-item {
-            border-radius: 10px;
-            overflow: hidden;
-            border: 2px solid #eee;
-            aspect-ratio: 1;
-        }
+            .info-box {
+                background: #fffbf0;
+                border: 2px solid #ffe0a0;
+                border-radius: 12px;
+                padding: 16px;
+                margin-top: 20px;
+            }
 
-        .preview-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+                .info-box p {
+                    font-size: 14px;
+                    color: #555;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                }
 
-        .file-count {
-            text-align: center;
-            color: #f7971e;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
+            .related-tools {
+                margin-top: 40px;
+            }
 
-        .calc-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+                .related-tools h2 {
+                    text-align: center;
+                    color: white;
+                    margin-bottom: 24px;
+                    font-size: 30px;
+                    font-weight: 800;
+                }
 
-        .calc-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(247,151,30,0.4);
-        }
+            .tools-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+                gap: 18px;
+            }
 
-        .calc-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+            .tool-card {
+                background: rgba(255,255,255,0.15);
+                backdrop-filter: blur(10px);
+                border-radius: 18px;
+                padding: 24px;
+                text-decoration: none;
+                transition: 0.3s;
+                border: 1px solid rgba(255,255,255,0.15);
+            }
 
-        .error-box {
-            background: #fff0f0;
-            border: 2px solid #ffcccc;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            color: #e74c3c;
-            font-weight: 600;
-            margin-top: 16px;
-        }
+                .tool-card:hover {
+                    transform: translateY(-5px);
+                    background: rgba(255,255,255,0.22);
+                }
 
-        .info-box {
-            background: #fffbf0;
-            border: 2px solid #ffe0a0;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 20px;
-        }
+            .tool-icon {
+                font-size: 42px;
+                margin-bottom: 14px;
+            }
 
-        .info-box p {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 6px;
-        }
+            .tool-card h3 {
+                color: white;
+                font-size: 18px;
+                margin-bottom: 8px;
+                font-weight: 700;
+            }
 
-        .info-box p:last-child { margin-bottom: 0; }
-        .info-box span { color: #f7971e; font-weight: 600; }
+            .tool-card p {
+                color: rgba(255,255,255,0.85);
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            @@media(max-width:768px) {
+
+                .card {
+                    padding: 24px;
+                }
+
+                .preview-grid {
+                    grid-template-columns: repeat(2,1fr);
+                }
+
+                .card-header h1 {
+                    font-size: 28px;
+                }
+            }
 
     </style>
+
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <div class="lang-toggle">
-        <div class="lang-btn">
-            <button class="lang-option active" onclick="setLang('ta')" id="btn-ta">தமிழ்</button>
-            <button class="lang-option" onclick="setLang('en')" id="btn-en">English</button>
-        </div>
-    </div>
+        <div class="card">
 
-    <div class="card">
+            <a href="/"
+                   class="home-btn">
 
-        <a href="/" class="home-btn">
-            ← Home
-        </a>
+                ← Home
 
-        <div class="card-header">
-            <span class="icon">🖼️➡️📄</span>
-            <h1 id="title">படம் to PDF</h1>
-            <p id="subtitle">உங்கள் படங்களை PDF-ஆக மாற்றுங்கள்</p>
-        </div>
+            </a>
 
-        <form method="post" action="/Pdf/Convert" enctype="multipart/form-data">
+            <div class="card-header">
 
-            <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                <span class="upload-icon">📁</span>
-                <strong id="uploadTitle">படங்களை தேர்வு செய்யுங்கள்</strong>
-                <p id="uploadSub">JPG, PNG, JPEG — பல படங்கள் தேர்வு செய்யலாம்</p>
+                <span class="icon">🖼️➡️📄</span>
+
+                <h1>
+                    Image to PDF
+                </h1>
+
+                <p>
+                    Convert your images into PDF instantly
+                </p>
+
             </div>
 
-            <input type="file"
-                   id="fileInput"
-                   name="images"
-                   accept="image/*"
-                   multiple
-                   onchange="previewImages(this)" />
+            <form method="post"
+                  action="/Pdf/Convert"
+                  enctype="multipart/form-data">
 
-            <div id="previewGrid" class="preview-grid" style="display:none;"></div>
+                <div class="upload-area"
+                     onclick="document.getElementById('fileInput').click()">
 
-            <div id="fileCount" class="file-count" style="display:none;"></div>
+                    <span class="upload-icon">📁</span>
 
-            <button type="submit"
-                    class="calc-btn"
-                    id="convertBtn">
+                    <strong>
+                        Select Images
+                    </strong>
 
-                📄 PDF-ஆக மாற்று
+                    <p>
+                        JPG, PNG, JPEG — Multiple images supported
+                    </p>
 
-            </button>
+                </div>
 
-        </form>
+                <input type="file"
+                       id="fileInput"
+                       name="images"
+                       accept="image/*"
+                       multiple
+                       onchange="previewImages(this)" />
 
-        @if (ViewBag.Error != null)
-        {
-            <div class="error-box">
-                ⚠️ @ViewBag.Error
+                <div id="previewGrid"
+                     class="preview-grid"
+                     style="display:none;">
+                </div>
+
+                <div id="fileCount"
+                     class="file-count"
+                     style="display:none;">
+                </div>
+
+                <button type="submit"
+                        class="calc-btn">
+
+                    📄 Convert to PDF
+
+                </button>
+
+            </form>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="error-box">
+                    ⚠️ @ViewBag.Error
+                </div>
+            }
+
+            <div class="info-box">
+
+                <p>✅ Combine multiple images into one PDF</p>
+
+                <p>✅ Auto fit to A4 page size</p>
+
+                <p>✅ Completely Free Tool</p>
+
             </div>
-        }
 
-        <div class="info-box">
-            <p>✅ <span id="info1">பல படங்களை ஒரே PDF-ல் சேர்க்கலாம்</span></p>
-            <p>✅ <span id="info2">A4 size-ல் automatic fit ஆகும்</span></p>
-            <p>✅ <span id="info3">முற்றிலும் இலவசம்</span></p>
+        </div>
+
+        <div class="related-tools">
+
+            <h2>
+                🔥 Related Tools
+            </h2>
+
+            <div class="tools-grid">
+
+                <a href="/Pdf/Merge"
+                       class="tool-card">
+
+                    <div class="tool-icon">📄</div>
+
+                    <h3>Merge PDF</h3>
+
+                    <p>
+                        Combine multiple PDF files into one
+                    </p>
+
+                </a>
+
+                <a href="/Pdf/Compress"
+                       class="tool-card">
+
+                    <div class="tool-icon">🗜️</div>
+
+                    <h3>Compress PDF</h3>
+
+                    <p>
+                        Reduce PDF file size online
+                    </p>
+
+                </a>
+
+                <a href="/Pdf/PdfToImage"
+                       class="tool-card">
+
+                    <div class="tool-icon">🖼️</div>
+
+                    <h3>PDF to Image</h3>
+
+                    <p>
+                        Convert PDF pages into images
+                    </p>
+
+                </a>
+
+                <a href="/Image/JpgToPng"
+                       class="tool-card">
+
+                    <div class="tool-icon">🔄</div>
+
+                    <h3>JPG to PNG</h3>
+
+                    <p>
+                        Convert JPG images into PNG
+                    </p>
+
+                </a>
+
+                <a href="/Image/Resize"
+                       class="tool-card">
+
+                    <div class="tool-icon">📐</div>
+
+                    <h3>Resize Image</h3>
+
+                    <p>
+                        Resize images easily online
+                    </p>
+
+                </a>
+
+                <a href="/Image/Crop"
+                       class="tool-card">
+
+                    <div class="tool-icon">✂️</div>
+
+                    <h3>Crop Image</h3>
+
+                    <p>
+                        Crop and edit images instantly
+                    </p>
+
+                </a>
+
+            </div>
+
         </div>
 
     </div>
 
-</div>
+    <script>
 
-<script>
-    function previewImages(input) {
-        const grid = document.getElementById('previewGrid');
-        const count = document.getElementById('fileCount');
+            function previewImages(input) {
 
-        grid.innerHTML = '';
+                const grid = document.getElementById('previewGrid');
+                const count = document.getElementById('fileCount');
 
-        if (input.files && input.files.length > 0) {
+                grid.innerHTML = '';
 
-            grid.style.display = 'grid';
-            count.style.display = 'block';
+                if (input.files && input.files.length > 0) {
 
-            count.innerText =
-                input.files.length + ' படங்கள் தேர்வு செய்யப்பட்டது';
+                    grid.style.display = 'grid';
+                    count.style.display = 'block';
 
-            Array.from(input.files)
-                .slice(0, 6)
-                .forEach(file => {
+                    count.innerText =
+                        input.files.length + ' images selected';
 
-                    const reader = new FileReader();
+                    Array.from(input.files)
+                        .slice(0, 6)
+                        .forEach(file => {
 
-                    reader.onload = e => {
+                            const reader = new FileReader();
 
-                        const div = document.createElement('div');
+                            reader.onload = e => {
 
-                        div.className = 'preview-item';
+                                const div = document.createElement('div');
 
-                        div.innerHTML =
-                            '<img src="' + e.target.result + '" />';
+                                div.className = 'preview-item';
 
-                        grid.appendChild(div);
-                    };
+                                div.innerHTML =
+                                    '<img src="' + e.target.result + '" />';
 
-                    reader.readAsDataURL(file);
-                });
-        }
-    }
+                                grid.appendChild(div);
+                            };
 
-    const text = {
+                            reader.readAsDataURL(file);
+                        });
+                }
+            }
 
-        ta: {
-            title: "படம் to PDF",
-            subtitle: "உங்கள் படங்களை PDF-ஆக மாற்றுங்கள்",
-            uploadTitle: "படங்களை தேர்வு செய்யுங்கள்",
-            uploadSub: "JPG, PNG, JPEG — பல படங்கள் தேர்வு செய்யலாம்",
-            convertBtn: "📄 PDF-ஆக மாற்று",
-            info1: "பல படங்களை ஒரே PDF-ல் சேர்க்கலாம்",
-            info2: "A4 size-ல் automatic fit ஆகும்",
-            info3: "முற்றிலும் இலவசம்"
-        },
-
-        en: {
-            title: "Image to PDF",
-            subtitle: "Convert your images to PDF instantly",
-            uploadTitle: "Select Images",
-            uploadSub: "JPG, PNG, JPEG — Multiple images supported",
-            convertBtn: "📄 Convert to PDF",
-            info1: "Combine multiple images in one PDF",
-            info2: "Auto fits to A4 size",
-            info3: "Completely Free"
-        }
-    };
-
-    function setLang(lang) {
-
-        const t = text[lang];
-
-        const ids = [
-            'title',
-            'subtitle',
-            'uploadTitle',
-            'uploadSub',
-            'convertBtn',
-            'info1',
-            'info2',
-            'info3'
-        ];
-
-        ids.forEach(id => {
-
-            const el = document.getElementById(id);
-
-            if (el)
-                el.innerText = t[id];
-        });
-
-        document.getElementById('btn-ta')
-            .classList.toggle('active', lang === 'ta');
-
-        document.getElementById('btn-en')
-            .classList.toggle('active', lang === 'en');
-    }
-</script>
+    </script>
 
 </body>
+
 </html>

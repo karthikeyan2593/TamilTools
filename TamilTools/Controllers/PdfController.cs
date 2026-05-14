@@ -11,6 +11,11 @@ namespace TamilTools.Controllers
             return View();
         }
 
+        public IActionResult Merge()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Convert(List<IFormFile> images)
         {
@@ -42,6 +47,8 @@ namespace TamilTools.Controllers
                     document.NewPage();
                 }
             }
+
+
 
             document.Close();
 
