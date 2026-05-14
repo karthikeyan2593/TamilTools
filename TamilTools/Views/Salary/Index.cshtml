@@ -3,309 +3,494 @@
     ViewData["Description"] = "தமிழில் சம்பளம் கணக்கிடுங்கள். PF, TDS, Professional Tax கழித்து கையில் கிடைக்கும் சம்பளம் தெரிந்துகொள்ளுங்கள்.";
     ViewData["Keywords"] = "salary calculator tamil, சம்பள கணக்கீடு, in hand salary calculator, TDS calculator tamil";
 }
+
 <!DOCTYPE html>
 <html lang="ta">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salary Calculator</title>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            min-height: 100vh;
-            padding: 30px 20px;
-        }
+            body {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+                min-height: 100vh;
+                padding: 30px 20px;
+            }
 
-        .container { max-width: 520px; margin: 0 auto; }
+            .container {
+                max-width: 520px;
+                margin: 0 auto;
+            }
 
-        .lang-toggle {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 16px;
-        }
+            .lang-toggle {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 16px;
+            }
 
-        .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border-radius: 50px;
-            padding: 5px;
-            display: flex;
-            gap: 4px;
-            backdrop-filter: blur(10px);
-        }
+            .lang-btn {
+                background: rgba(255,255,255,0.2);
+                border-radius: 50px;
+                padding: 5px;
+                display: flex;
+                gap: 4px;
+                backdrop-filter: blur(10px);
+            }
 
-        .lang-option {
-            padding: 7px 18px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s;
-        }
+            .lang-option {
+                padding: 7px 18px;
+                border-radius: 50px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                border: none;
+                background: transparent;
+                color: rgba(255,255,255,0.7);
+                transition: all 0.3s;
+            }
 
-        .lang-option.active { background: white; color: #11998e; }
+                .lang-option.active {
+                    background: white;
+                    color: #11998e;
+                }
 
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 36px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        }
+            .card {
+                background: white;
+                border-radius: 24px;
+                padding: 36px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+                position: relative;
+            }
 
-        .card-header { text-align: center; margin-bottom: 32px; }
-        .card-header .icon { font-size: 48px; margin-bottom: 12px; display: block; }
-        .card-header h1 { font-size: 26px; color: #1a1a2e; font-weight: 800; margin-bottom: 6px; }
-        .card-header p { color: #888; font-size: 14px; }
+            .home-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: #11998e;
+                color: white;
+                padding: 10px 16px;
+                border-radius: 10px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 14px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            }
 
-        .input-group { margin-bottom: 20px; }
+            .card-header {
+                text-align: center;
+                margin-bottom: 32px;
+                margin-top: 30px;
+            }
 
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            color: #444;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+                .card-header .icon {
+                    font-size: 48px;
+                    margin-bottom: 12px;
+                    display: block;
+                }
 
-        .input-wrapper { position: relative; }
+                .card-header h1 {
+                    font-size: 26px;
+                    color: #1a1a2e;
+                    font-weight: 800;
+                    margin-bottom: 6px;
+                }
 
-        .input-prefix {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #11998e;
-            font-weight: 700;
-            font-size: 16px;
-        }
+                .card-header p {
+                    color: #888;
+                    font-size: 14px;
+                }
 
-        .input-group input {
-            width: 100%;
-            padding: 14px 14px 14px 36px;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s;
-            color: #1a1a2e;
-            font-weight: 600;
-        }
+            .input-group {
+                margin-bottom: 20px;
+            }
 
-        .input-group input:focus {
-            outline: none;
-            border-color: #11998e;
-            box-shadow: 0 0 0 4px rgba(17,153,142,0.1);
-        }
+                .input-group label {
+                    display: block;
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #444;
+                    margin-bottom: 8px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
 
-        .calc-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 8px;
-        }
+            .input-wrapper {
+                position: relative;
+            }
 
-        .calc-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(17,153,142,0.4);
-        }
+            .input-prefix {
+                position: absolute;
+                left: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #11998e;
+                font-weight: 700;
+                font-size: 16px;
+            }
 
-        /* Result */
-        .inhand-big {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            color: white;
-            margin-top: 28px;
-            margin-bottom: 16px;
-        }
+            .input-group input {
+                width: 100%;
+                padding: 14px 14px 14px 36px;
+                border: 2px solid #eee;
+                border-radius: 12px;
+                font-size: 16px;
+                transition: all 0.3s;
+                color: #1a1a2e;
+                font-weight: 600;
+            }
 
-        .inhand-big .label {
-            font-size: 13px;
-            opacity: 0.8;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+                .input-group input:focus {
+                    outline: none;
+                    border-color: #11998e;
+                    box-shadow: 0 0 0 4px rgba(17,153,142,0.1);
+                }
 
-        .inhand-big .amount { font-size: 42px; font-weight: 800; }
-        .inhand-big .sublabel { font-size: 13px; opacity: 0.7; margin-top: 4px; }
+            .calc-btn {
+                width: 100%;
+                padding: 16px;
+                background: linear-gradient(135deg, #11998e, #38ef7d);
+                color: white;
+                border: none;
+                border-radius: 14px;
+                font-size: 17px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.3s;
+                margin-top: 8px;
+            }
 
-        .breakdown {
-            background: #f8fff8;
-            border-radius: 16px;
-            padding: 20px;
-            border: 2px solid #e0f5e0;
-        }
+                .calc-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(17,153,142,0.4);
+                }
 
-        .breakdown h3 {
-            font-size: 14px;
-            font-weight: 700;
-            color: #444;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+            .inhand-big {
+                background: linear-gradient(135deg, #11998e, #38ef7d);
+                border-radius: 16px;
+                padding: 24px;
+                text-align: center;
+                color: white;
+                margin-top: 28px;
+                margin-bottom: 16px;
+            }
 
-        .breakdown-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0f5e0;
-            font-size: 14px;
-        }
+                .inhand-big .label {
+                    font-size: 13px;
+                    opacity: 0.8;
+                    margin-bottom: 8px;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
 
-        .breakdown-row:last-child { border-bottom: none; }
-        .breakdown-row .label { color: #666; }
-        .breakdown-row .value { font-weight: 700; color: #1a1a2e; }
-        .breakdown-row.deduction .value { color: #e74c3c; }
-        .breakdown-row.total .value { color: #11998e; font-size: 16px; }
+                .inhand-big .amount {
+                    font-size: 42px;
+                    font-weight: 800;
+                }
+
+                .inhand-big .sublabel {
+                    font-size: 13px;
+                    opacity: 0.7;
+                    margin-top: 4px;
+                }
+
+            .breakdown {
+                background: #f8fff8;
+                border-radius: 16px;
+                padding: 20px;
+                border: 2px solid #e0f5e0;
+            }
+
+                .breakdown h3 {
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: #444;
+                    margin-bottom: 16px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+            .breakdown-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px solid #e0f5e0;
+                font-size: 14px;
+            }
+
+                .breakdown-row:last-child {
+                    border-bottom: none;
+                }
+
+                .breakdown-row .label {
+                    color: #666;
+                }
+
+                .breakdown-row .value {
+                    font-weight: 700;
+                    color: #1a1a2e;
+                }
+
+                .breakdown-row.deduction .value {
+                    color: #e74c3c;
+                }
+
+                .breakdown-row.total .value {
+                    color: #11998e;
+                    font-size: 16px;
+                }
+
     </style>
 </head>
+
 <body>
-<div class="container">
-    <div style="margin-bottom:20px;">
-    <a href="/"
-       style="
-        display:inline-flex;
-        align-items:center;
-        gap:8px;
-        text-decoration:none;
-        background:rgba(255,255,255,0.2);
-        color:white;
-        padding:10px 18px;
-        border-radius:12px;
-        font-weight:600;
-        backdrop-filter:blur(10px);">
 
-        ← Home
-    </a>
-</div>
+    <div class="container">
 
-    <div class="lang-toggle">
-        <div class="lang-btn">
-            <button class="lang-option active" onclick="setLang('ta')" id="btn-ta">தமிழ்</button>
-            <button class="lang-option" onclick="setLang('en')" id="btn-en">English</button>
-        </div>
-    </div>
+        <div class="lang-toggle">
 
-    <div class="card">
-        <div class="card-header">
-            <span class="icon">💰</span>
-            <h1 id="title">சம்பள கணக்கீடு</h1>
-            <p id="subtitle">உங்கள் கையில் கிடைக்கும் சம்பளம் கணக்கிடுங்கள்</p>
+            <div class="lang-btn">
+
+                <button class="lang-option active"
+                        onclick="setLang('ta')"
+                        id="btn-ta">
+                    தமிழ்
+                </button>
+
+                <button class="lang-option"
+                        onclick="setLang('en')"
+                        id="btn-en">
+                    English
+                </button>
+
+            </div>
+
         </div>
 
-        <form method="post" action="/Salary/Calculate">
-            <div class="input-group">
-                <label id="label1">மொத்த சம்பளம் (Gross Salary)</label>
-                <div class="input-wrapper">
-                    <span class="input-prefix">₹</span>
-                    <input type="number" name="grossSalary" id="input1"
-                        placeholder="50000"
-                        value="@ViewBag.InputSalary" required />
-                </div>
-            </div>
-            <button type="submit" class="calc-btn" id="calcBtn">💰 கணக்கிடு</button>
-        </form>
+        <div class="card">
 
-        @if (ViewBag.InHand != null)
-        {
-            <div class="inhand-big">
-                <div class="label" id="inhandLabel">கையில் கிடைக்கும் சம்பளம்</div>
-                <div class="amount">₹@ViewBag.InHand</div>
-                <div class="sublabel" id="inhandSub">ஒவ்வொரு மாதமும்</div>
+            <a href="/" class="home-btn">
+                ← Home
+            </a>
+
+            <div class="card-header">
+
+                <span class="icon">💰</span>
+
+                <h1 id="title">
+                    சம்பள கணக்கீடு
+                </h1>
+
+                <p id="subtitle">
+                    உங்கள் கையில் கிடைக்கும் சம்பளம் கணக்கிடுங்கள்
+                </p>
+
             </div>
 
-            <div class="breakdown">
-                <h3 id="breakTitle">சம்பள விவரம்</h3>
-                <div class="breakdown-row">
-                    <span class="label" id="row1">மொத்த சம்பளம்</span>
-                    <span class="value">₹@ViewBag.GrossSalary</span>
+            <form method="post" action="/Salary/Calculate">
+
+                <div class="input-group">
+
+                    <label id="label1">
+                        மொத்த சம்பளம் (Gross Salary)
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-prefix">₹</span>
+
+                        <input type="number"
+                               name="grossSalary"
+                               id="input1"
+                               placeholder="50000"
+                               value="@ViewBag.InputSalary"
+                               required />
+
+                    </div>
+
                 </div>
-                <div class="breakdown-row">
-                    <span class="label" id="row2">அடிப்படை சம்பளம் (50%)</span>
-                    <span class="value">₹@ViewBag.Basic</span>
+
+                <button type="submit"
+                        class="calc-btn"
+                        id="calcBtn">
+
+                    💰 கணக்கிடு
+
+                </button>
+
+            </form>
+
+            @if (ViewBag.InHand != null)
+            {
+                <div class="inhand-big">
+
+                    <div class="label" id="inhandLabel">
+                        கையில் கிடைக்கும் சம்பளம்
+                    </div>
+
+                    <div class="amount">
+                        ₹@ViewBag.InHand
+                    </div>
+
+                    <div class="sublabel" id="inhandSub">
+                        ஒவ்வொரு மாதமும்
+                    </div>
+
                 </div>
-                <div class="breakdown-row deduction">
-                    <span class="label" id="row3">PF கழிவு (12%)</span>
-                    <span class="value">- ₹@ViewBag.PF</span>
+
+                <div class="breakdown">
+
+                    <h3 id="breakTitle">
+                        சம்பள விவரம்
+                    </h3>
+
+                    <div class="breakdown-row">
+                        <span class="label" id="row1">
+                            மொத்த சம்பளம்
+                        </span>
+
+                        <span class="value">
+                            ₹@ViewBag.GrossSalary
+                        </span>
+                    </div>
+
+                    <div class="breakdown-row">
+                        <span class="label" id="row2">
+                            அடிப்படை சம்பளம் (50%)
+                        </span>
+
+                        <span class="value">
+                            ₹@ViewBag.Basic
+                        </span>
+                    </div>
+
+                    <div class="breakdown-row deduction">
+                        <span class="label" id="row3">
+                            PF கழிவு (12%)
+                        </span>
+
+                        <span class="value">
+                            - ₹@ViewBag.PF
+                        </span>
+                    </div>
+
+                    <div class="breakdown-row deduction">
+                        <span class="label" id="row4">
+                            தொழில் வரி
+                        </span>
+
+                        <span class="value">
+                            - ₹@ViewBag.ProfessionalTax
+                        </span>
+                    </div>
+
+                    <div class="breakdown-row deduction">
+                        <span class="label" id="row5">
+                            TDS
+                        </span>
+
+                        <span class="value">
+                            - ₹@ViewBag.TDS
+                        </span>
+                    </div>
+
+                    <div class="breakdown-row total">
+                        <span class="label" id="row6">
+                            கையில் சம்பளம்
+                        </span>
+
+                        <span class="value">
+                            ₹@ViewBag.InHand
+                        </span>
+                    </div>
+
                 </div>
-                <div class="breakdown-row deduction">
-                    <span class="label" id="row4">தொழில் வரி</span>
-                    <span class="value">- ₹@ViewBag.ProfessionalTax</span>
-                </div>
-                <div class="breakdown-row deduction">
-                    <span class="label" id="row5">TDS</span>
-                    <span class="value">- ₹@ViewBag.TDS</span>
-                </div>
-                <div class="breakdown-row total">
-                    <span class="label" id="row6">கையில் சம்பளம்</span>
-                    <span class="value">₹@ViewBag.InHand</span>
-                </div>
-            </div>
-        }
+            }
+
+        </div>
+
     </div>
-</div>
 
-<script>
-    const text = {
-        ta: {
-            title: "சம்பள கணக்கீடு",
-            subtitle: "உங்கள் கையில் கிடைக்கும் சம்பளம் கணக்கிடுங்கள்",
-            label1: "மொத்த சம்பளம் (Gross Salary)",
-            calcBtn: "💰 கணக்கிடு",
-            inhandLabel: "கையில் கிடைக்கும் சம்பளம்",
-            inhandSub: "ஒவ்வொரு மாதமும்",
-            breakTitle: "சம்பள விவரம்",
-            row1: "மொத்த சம்பளம்",
-            row2: "அடிப்படை சம்பளம் (50%)",
-            row3: "PF கழிவு (12%)",
-            row4: "தொழில் வரி",
-            row5: "TDS",
-            row6: "கையில் சம்பளம்"
-        },
-        en: {
-            title: "Salary Calculator",
-            subtitle: "Calculate your in-hand salary instantly",
-            label1: "Gross Salary",
-            calcBtn: "💰 Calculate",
-            inhandLabel: "In-Hand Salary",
-            inhandSub: "Every Month",
-            breakTitle: "Salary Breakdown",
-            row1: "Gross Salary",
-            row2: "Basic Salary (50%)",
-            row3: "PF Deduction (12%)",
-            row4: "Professional Tax",
-            row5: "TDS",
-            row6: "In-Hand Salary"
-        }
-    };
+    <script>
+            const text = {
+                ta: {
+                    title: "சம்பள கணக்கீடு",
+                    subtitle: "உங்கள் கையில் கிடைக்கும் சம்பளம் கணக்கிடுங்கள்",
+                    label1: "மொத்த சம்பளம் (Gross Salary)",
+                    calcBtn: "💰 கணக்கிடு",
+                    inhandLabel: "கையில் கிடைக்கும் சம்பளம்",
+                    inhandSub: "ஒவ்வொரு மாதமும்",
+                    breakTitle: "சம்பள விவரம்",
+                    row1: "மொத்த சம்பளம்",
+                    row2: "அடிப்படை சம்பளம் (50%)",
+                    row3: "PF கழிவு (12%)",
+                    row4: "தொழில் வரி",
+                    row5: "TDS",
+                    row6: "கையில் சம்பளம்"
+                },
 
-    function setLang(lang) {
-        const t = text[lang];
-        const ids = ['title','subtitle','label1','calcBtn','inhandLabel',
-                     'inhandSub','breakTitle','row1','row2','row3','row4','row5','row6'];
-        ids.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerText = t[id];
-        });
-        document.getElementById('btn-ta').classList.toggle('active', lang === 'ta');
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    }
-</script>
+                en: {
+                    title: "Salary Calculator",
+                    subtitle: "Calculate your in-hand salary instantly",
+                    label1: "Gross Salary",
+                    calcBtn: "💰 Calculate",
+                    inhandLabel: "In-Hand Salary",
+                    inhandSub: "Every Month",
+                    breakTitle: "Salary Breakdown",
+                    row1: "Gross Salary",
+                    row2: "Basic Salary (50%)",
+                    row3: "PF Deduction (12%)",
+                    row4: "Professional Tax",
+                    row5: "TDS",
+                    row6: "In-Hand Salary"
+                }
+            };
+
+            function setLang(lang) {
+
+                const t = text[lang];
+
+                const ids = [
+                    'title',
+                    'subtitle',
+                    'label1',
+                    'calcBtn',
+                    'inhandLabel',
+                    'inhandSub',
+                    'breakTitle',
+                    'row1',
+                    'row2',
+                    'row3',
+                    'row4',
+                    'row5',
+                    'row6'
+                ];
+
+                ids.forEach(id => {
+
+                    const el = document.getElementById(id);
+
+                    if (el)
+                        el.innerText = t[id];
+                });
+
+                document.getElementById('btn-ta')
+                    .classList.toggle('active', lang === 'ta');
+
+                document.getElementById('btn-en')
+                    .classList.toggle('active', lang === 'en');
+            }
+    </script>
+
 </body>
 </html>

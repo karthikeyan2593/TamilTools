@@ -23,18 +23,36 @@
         padding: 30px 20px;
         text-align: center;
         color: white;
+        position: relative;
     }
 
-        .hero h1 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
+    .home-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        color: #e74c3c;
+        padding: 10px 16px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
 
-        .hero p {
-            font-size: 14px;
-            opacity: 0.8;
-        }
+    .hero h1 {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 6px;
+    }
+
+    .hero p {
+        font-size: 14px;
+        opacity: 0.8;
+    }
 
     .categories {
         background: white;
@@ -154,64 +172,94 @@
     }
 
     @@media (max-width: 600px) {
+
         .news-grid {
             grid-template-columns: 1fr;
+        }
+
+        .home-btn {
+            position: static;
+            margin-bottom: 20px;
         }
     }
 </style>
 
-<div style="max-width:900px; margin:20px auto 0; padding:0 20px;">
-    <a href="/"
-           style="
-        display:inline-flex;
-        align-items:center;
-        gap:8px;
-        text-decoration:none;
-        background:#e74c3c;
-        color:white;
-        padding:10px 18px;
-        border-radius:12px;
-        font-weight:600;
-        box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+<div class="hero">
 
+    <a href="/" class="home-btn">
         ← Home
     </a>
-</div>
 
-<div class="hero">
     <h1>📰 Tamil News</h1>
-    <p>தினமும் புதிய செய்திகள் — Auto Updated!</p>
+
+    <p>
+        தினமும் புதிய செய்திகள் — Auto Updated!
+    </p>
+
 </div>
 
 <div style="background:white; border-bottom: 2px solid #eee;">
+
     <div class="categories">
-        <a href="/News/Index?category=all" class="cat-btn @(category == "all" ? "active" : "")">🌐 அனைத்தும்</a>
-        <a href="/News/Index?category=general" class="cat-btn @(category == "general" ? "active" : "")">📰 பொது</a>
-        <a href="/News/Index?category=cinema" class="cat-btn @(category == "cinema" ? "active" : "")">🎬 சினிமா</a>
-        <a href="/News/Index?category=sports" class="cat-btn @(category == "sports" ? "active" : "")">⚽ விளையாட்டு</a>
-        <a href="/News/Index?category=politics" class="cat-btn @(category == "politics" ? "active" : "")">🏛️ அரசியல்</a>
+
+        <a href="/News/Index?category=all"
+               class="cat-btn @(category == "all" ? "active" : "")">
+            🌐 அனைத்தும்
+        </a>
+
+        <a href="/News/Index?category=general"
+               class="cat-btn @(category == "general" ? "active" : "")">
+            📰 பொது
+        </a>
+
+        <a href="/News/Index?category=cinema"
+               class="cat-btn @(category == "cinema" ? "active" : "")">
+            🎬 சினிமா
+        </a>
+
+        <a href="/News/Index?category=sports"
+               class="cat-btn @(category == "sports" ? "active" : "")">
+            ⚽ விளையாட்டு
+        </a>
+
+        <a href="/News/Index?category=politics"
+               class="cat-btn @(category == "politics" ? "active" : "")">
+            🏛️ அரசியல்
+        </a>
+
     </div>
+
 </div>
 
 <div class="news-section">
 
     @if (ViewBag.Error != null)
     {
-        <div class="error-box">⚠️ @ViewBag.Error</div>
+        <div class="error-box">
+            ⚠️ @ViewBag.Error
+        </div>
     }
     else if (newsItems != null && newsItems.Count > 0)
     {
-        <div class="news-count">@newsItems.Count செய்திகள் கிடைத்தன</div>
+        <div class="news-count">
+            @newsItems.Count செய்திகள் கிடைத்தன
+        </div>
 
         <div class="news-grid">
 
             @foreach (var news in newsItems)
             {
-                <a href="@news.Link" target="_blank" class="news-card">
+                <a href="@news.Link"
+                       target="_blank"
+                       class="news-card">
 
-                    <div class="news-source">@news.Source</div>
+                    <div class="news-source">
+                        @news.Source
+                    </div>
 
-                    <div class="news-title">@news.Title</div>
+                    <div class="news-title">
+                        @news.Title
+                    </div>
 
                     @if (!string.IsNullOrEmpty(news.Summary))
                     {
@@ -232,7 +280,9 @@
     }
     else
     {
-        <div class="loading">⏳ செய்திகள் load ஆகுது...</div>
+        <div class="loading">
+            ⏳ செய்திகள் load ஆகுது...
+        </div>
     }
 
 </div>

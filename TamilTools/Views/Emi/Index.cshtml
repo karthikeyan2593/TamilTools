@@ -1,468 +1,309 @@
 ﻿@{
     ViewData["Title"] = "தமிழ் EMI கணக்கீடு | Free EMI Calculator Tamil";
-    
+
     ViewData["Description"] = "தமிழில் EMI கணக்கிடுங்கள். Home loan, car loan, bike loan மற்றும் personal loan மாத தவணையை உடனே கணக்கிடும் இலவச EMI calculator.";
-    
+
     ViewData["Keywords"] = "EMI calculator tamil, தமிழ் EMI கணக்கீடு, loan EMI calculator, home loan EMI tamil, மாத தவணை கணக்கு";
 }
+
 <!DOCTYPE html>
 <html lang="ta">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EMI Calculator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 30px 20px;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <style>
+
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
         }
 
-        .container { max-width: 620px; margin: 0 auto; }
+        body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 30px 20px;
+        }
+
+        .container {
+        max-width: 620px;
+        margin: 0 auto;
+        }
 
         .lang-toggle {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 16px;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 16px;
         }
 
         .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border-radius: 50px;
-            padding: 5px;
-            display: flex;
-            gap: 4px;
-            backdrop-filter: blur(10px);
+        background: rgba(255,255,255,0.2);
+        border-radius: 50px;
+        padding: 5px;
+        display: flex;
+        gap: 4px;
+        backdrop-filter: blur(10px);
         }
 
         .lang-option {
-            padding: 7px 18px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s;
+        padding: 7px 18px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        color: rgba(255,255,255,0.7);
+        transition: all 0.3s;
         }
 
-        .lang-option.active { background: white; color: #667eea; }
+        .lang-option.active {
+        background: white;
+        color: #667eea;
+        }
 
         .card {
-            background: white;
-            border-radius: 24px;
-            padding: 36px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
+        background: white;
+        border-radius: 24px;
+        padding: 36px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        margin-bottom: 20px;
+        position: relative;
         }
 
-        .card-header { text-align: center; margin-bottom: 32px; }
-        .card-header .icon { font-size: 48px; margin-bottom: 12px; display: block; }
-        .card-header h1 { font-size: 26px; color: #1a1a2e; font-weight: 800; margin-bottom: 6px; }
-        .card-header p { color: #888; font-size: 14px; }
+        .home-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #0f9d94;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
 
-        .input-group { margin-bottom: 20px; }
+        .card-header {
+        text-align: center;
+        margin-bottom: 32px;
+        margin-top: 30px;
+        }
+
+        .card-header .icon {
+        font-size: 48px;
+        margin-bottom: 12px;
+        display: block;
+        }
+
+        .card-header h1 {
+        font-size: 26px;
+        color: #1a1a2e;
+        font-weight: 800;
+        margin-bottom: 6px;
+        }
+
+        .card-header p {
+        color: #888;
+        font-size: 14px;
+        }
+
+        .input-group {
+        margin-bottom: 20px;
+        }
 
         .input-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            color: #444;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        color: #444;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
         }
 
-        .input-wrapper { position: relative; }
+        .input-wrapper {
+        position: relative;
+        }
 
         .input-prefix {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #667eea;
-            font-weight: 700;
-            font-size: 16px;
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        font-weight: 700;
+        font-size: 16px;
         }
 
         .input-group input {
-            width: 100%;
-            padding: 14px 14px 14px 36px;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s;
-            color: #1a1a2e;
-            font-weight: 600;
+        width: 100%;
+        padding: 14px 14px 14px 36px;
+        border: 2px solid #eee;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s;
+        color: #1a1a2e;
+        font-weight: 600;
         }
 
         .input-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
         }
 
         .calc-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 8px;
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 8px;
         }
 
         .calc-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102,126,234,0.4);
         }
 
-        .emi-big {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            color: white;
-            margin-bottom: 16px;
-            margin-top: 28px;
-        }
-
-        .emi-big .emi-label {
-            font-size: 13px;
-            opacity: 0.8;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .emi-big .emi-amount { font-size: 42px; font-weight: 800; }
-        .emi-big .emi-month { font-size: 13px; opacity: 0.7; margin-top: 4px; }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat-box {
-            background: #f8f9ff;
-            border-radius: 14px;
-            padding: 18px;
-            border: 2px solid #eef0ff;
-        }
-
-        .stat-box .stat-label {
-            font-size: 11px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-
-        .stat-box .stat-value { font-size: 20px; font-weight: 800; color: #1a1a2e; }
-        .stat-box.interest .stat-value { color: #e74c3c; }
-
-        .chart-card {
-            background: #1a1a2e;
-            border-radius: 24px;
-            padding: 28px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .chart-header h3 { font-size: 16px; color: white; font-weight: 800; }
-        .chart-legend { display: flex; gap: 16px; }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: #aaa;
-            font-weight: 600;
-        }
-
-        .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
-        .chart-wrap { position: relative; height: 300px; }
-
-        .chart-note {
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            margin-top: 12px;
-        }
     </style>
 </head>
+
 <body>
-<div class="container">
+
     <div class="container">
 
-    <div style="margin-bottom:20px;">
-        <a href="/"
-           style="
-            display:inline-flex;
-            align-items:center;
-            gap:8px;
-            text-decoration:none;
-            background:rgba(255,255,255,0.2);
-            color:white;
-            padding:10px 18px;
-            border-radius:12px;
-            font-weight:600;
-            backdrop-filter:blur(10px);">
+        <div class="lang-toggle">
 
-            ← Home
-        </a>
-    </div>
+            <div class="lang-btn">
 
-    <div class="calculator-card">
+                <button class="lang-option active"
+                        onclick="setLang('ta')"
+                        id="btn-ta">
+                    தமிழ்
+                </button>
 
-    <div class="lang-toggle">
-        <div class="lang-btn">
-            <button class="lang-option active" onclick="setLang('ta')" id="btn-ta">தமிழ்</button>
-            <button class="lang-option" onclick="setLang('en')" id="btn-en">English</button>
-        </div>
-    </div>
+                <button class="lang-option"
+                        onclick="setLang('en')"
+                        id="btn-en">
+                    English
+                </button>
 
-    <div class="card">
-        <div class="card-header">
-            <span class="icon">🏦</span>
-            <h1 id="title">தமிழ் EMI கணக்கீடு</h1>
-            <p id="subtitle">உங்கள் மாத தவணை இப்போதே கணக்கிடுங்கள்</p>
+            </div>
+
         </div>
 
-        <form method="post" action="/Emi/Calculate">
-            <div class="input-group">
-                <label id="label1">கடன் தொகை</label>
-                <div class="input-wrapper">
-                    <span class="input-prefix">₹</span>
-                    <input type="number" name="loanAmount" id="input1"
-                        placeholder="500000"
-                        value="@ViewBag.InputLoan" required />
-                </div>
-            </div>
-            <div class="input-group">
-                <label id="label2">வட்டி விகிதம் (% வருடம்)</label>
-                <div class="input-wrapper">
-                    <span class="input-prefix">%</span>
-                    <input type="number" name="interestRate" id="input2"
-                        step="0.1" placeholder="8.5"
-                        value="@ViewBag.InputRate" required />
-                </div>
-            </div>
-            <div class="input-group">
-                <label id="label3">கடன் காலம் (மாதங்கள்)</label>
-                <div class="input-wrapper">
-                    <span class="input-prefix">📅</span>
-                    <input type="number" name="months" id="input3"
-                        placeholder="60"
-                        value="@ViewBag.InputMonths" required />
-                </div>
-            </div>
-            <button type="submit" class="calc-btn" id="calcBtn">📊 கணக்கிடு</button>
-        </form>
+        <div class="card">
 
-        @if (ViewBag.EMI != null)
-        {
-            <div class="emi-big">
-                <div class="emi-label" id="emiLabel">மாத தவணை (EMI)</div>
-                <div class="emi-amount">₹@ViewBag.EMI</div>
-                <div class="emi-month" id="emiMonth">ஒவ்வொரு மாதமும்</div>
-            </div>
-            <div class="stats-row">
-                <div class="stat-box">
-                    <div class="stat-label" id="row1">கடன் தொகை</div>
-                    <div class="stat-value">₹@ViewBag.LoanAmount</div>
-                </div>
-                <div class="stat-box interest">
-                    <div class="stat-label" id="row2">மொத்த வட்டி</div>
-                    <div class="stat-value">₹@ViewBag.TotalInterest</div>
-                </div>
-            </div>
-        }
-    </div>
+            <a href="/" class="home-btn">
+                ← Home
+            </a>
 
-    @if (ViewBag.EMI != null)
-    {
-        <div class="chart-card">
-            <div class="chart-header">
-                <h3 id="chartTitle">மாதாந்திர கடன் விவரம்</h3>
-                <div class="chart-legend">
-                    <div class="legend-item">
-                        <div class="legend-dot" style="background:#667eea"></div>
-                        <span id="leg1">அசல்</span>
+            <div class="card-header">
+
+                <span class="icon">🏦</span>
+
+                <h1 id="title">
+                    தமிழ் EMI கணக்கீடு
+                </h1>
+
+                <p id="subtitle">
+                    உங்கள் மாத தவணை இப்போதே கணக்கிடுங்கள்
+                </p>
+
+            </div>
+
+            <form method="post" action="/Emi/Calculate">
+
+                <div class="input-group">
+
+                    <label id="label1">
+                        கடன் தொகை
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-prefix">₹</span>
+
+                        <input type="number"
+                               name="loanAmount"
+                               placeholder="500000"
+                               value="@ViewBag.InputLoan"
+                               required />
+
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-dot" style="background:#e74c3c"></div>
-                        <span id="leg2">வட்டி</span>
-                    </div>
+
                 </div>
-            </div>
-            <div class="chart-wrap">
-                <canvas id="emiChart"></canvas>
-            </div>
-            <p class="chart-note" id="chartNote">⬆️ அசல் அதிகமாகும் | வட்டி குறையும் ⬇️</p>
+
+                <div class="input-group">
+
+                    <label id="label2">
+                        வட்டி விகிதம் (% வருடம்)
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-prefix">%</span>
+
+                        <input type="number"
+                               name="interestRate"
+                               step="0.1"
+                               placeholder="8.5"
+                               value="@ViewBag.InputRate"
+                               required />
+
+                    </div>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label id="label3">
+                        கடன் காலம் (மாதங்கள்)
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-prefix">📅</span>
+
+                        <input type="number"
+                               name="months"
+                               placeholder="60"
+                               value="@ViewBag.InputMonths"
+                               required />
+
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        class="calc-btn"
+                        id="calcBtn">
+
+                    📊 கணக்கிடு
+
+                </button>
+
+            </form>
+
         </div>
 
-        <script>
-            const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.LabelList as List<string>));
-            const principalData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.PrincipalList as List<double>));
-            const interestData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.InterestList as List<double>));
+    </div>
 
-            const plugin3D = {
-                id: '3d-bars',
-                afterDatasetsDraw(chart) {
-                    const ctx = chart.ctx;
-                    chart.data.datasets.forEach((dataset, i) => {
-                        const meta = chart.getDatasetMeta(i);
-                        meta.data.forEach((bar) => {
-                            const x = bar.x;
-                            const y = bar.y;
-                            const w = bar.width;
-                            const h = bar.height;
-                            const depth = 6;
-
-                            // Top face
-                            ctx.beginPath();
-                            ctx.moveTo(x - w/2, y);
-                            ctx.lineTo(x - w/2 + depth, y - depth);
-                            ctx.lineTo(x + w/2 + depth, y - depth);
-                            ctx.lineTo(x + w/2, y);
-                            ctx.closePath();
-                            ctx.fillStyle = i === 0 ? '#8fa8f5' : '#f1948a';
-                            ctx.fill();
-
-                            // Right face
-                            ctx.beginPath();
-                            ctx.moveTo(x + w/2, y);
-                            ctx.lineTo(x + w/2 + depth, y - depth);
-                            ctx.lineTo(x + w/2 + depth, y - depth + Math.abs(h));
-                            ctx.lineTo(x + w/2, y + Math.abs(h));
-                            ctx.closePath();
-                            ctx.fillStyle = i === 0 ? '#4a5fc4' : '#c0392b';
-                            ctx.fill();
-                        });
-                    });
-                }
-            };
-
-            const ctx = document.getElementById('emiChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                plugins: [plugin3D],
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'அசல்',
-                            data: principalData,
-                            backgroundColor: 'rgba(102,126,234,0.9)',
-                            borderRadius: 2,
-                            stack: 'stack'
-                        },
-                        {
-                            label: 'வட்டி',
-                            data: interestData,
-                            backgroundColor: 'rgba(231,76,60,0.9)',
-                            borderRadius: 2,
-                            stack: 'stack'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(c) {
-                                    return c.dataset.label + ': ₹' + c.parsed.y.toFixed(0);
-                                },
-                                afterBody: function(items) {
-                                    const total = items.reduce((s, i) => s + i.parsed.y, 0);
-                                    return ['EMI: ₹' + total.toFixed(0)];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            stacked: true,
-                            grid: { display: false },
-                            ticks: { maxTicksLimit: 12, font: { size: 11 }, color: '#aaa' }
-                        },
-                        y: {
-                            stacked: true,
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: {
-                                callback: val => '₹' + val.toLocaleString('en-IN'),
-                                font: { size: 11 },
-                                color: '#aaa'
-                            }
-                        }
-                    }
-                }
-            });
-        </script>
-    }
-</div>
-
-<script>
-    const text = {
-        ta: {
-            title: "தமிழ் EMI கணக்கீடு",
-            subtitle: "உங்கள் மாத தவணை இப்போதே கணக்கிடுங்கள்",
-            label1: "கடன் தொகை", label2: "வட்டி விகிதம் (% வருடம்)",
-            label3: "கடன் காலம் (மாதங்கள்)", calcBtn: "📊 கணக்கிடு",
-            emiLabel: "மாத தவணை (EMI)", emiMonth: "ஒவ்வொரு மாதமும்",
-            row1: "கடன் தொகை", row2: "மொத்த வட்டி",
-            chartTitle: "மாதாந்திர கடன் விவரம்",
-            leg1: "அசல்", leg2: "வட்டி",
-            chartNote: "⬆️ அசல் அதிகமாகும் | வட்டி குறையும் ⬇️"
-        },
-        en: {
-            title: "EMI Calculator",
-            subtitle: "Calculate your monthly installment instantly",
-            label1: "Loan Amount", label2: "Interest Rate (% per year)",
-            label3: "Loan Duration (months)", calcBtn: "📊 Calculate",
-            emiLabel: "Monthly EMI", emiMonth: "Every Month",
-            row1: "Principal Amount", row2: "Total Interest",
-            chartTitle: "Monthly Loan Breakdown",
-            leg1: "Principal", leg2: "Interest",
-            chartNote: "⬆️ Principal increases | Interest decreases ⬇️"
-        }
-    };
-
-    function setLang(lang) {
-        const t = text[lang];
-        const ids = ['title','subtitle','label1','label2','label3','calcBtn',
-                     'emiLabel','emiMonth','row1','row2','chartTitle','leg1','leg2','chartNote'];
-        ids.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerText = t[id];
-        });
-        document.getElementById('btn-ta').classList.toggle('active', lang === 'ta');
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    }
-</script>
 </body>
 </html>

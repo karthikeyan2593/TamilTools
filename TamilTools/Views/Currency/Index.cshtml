@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Converter</title>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -56,9 +57,37 @@
             padding: 36px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
         }
 
-        .card-header { text-align: center; margin-bottom: 32px; }
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            background: #0f9d94;
+            color: white;
+
+            padding: 10px 16px;
+            border-radius: 10px;
+
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 32px;
+            margin-top: 30px;
+        }
+
         .card-header .icon { font-size: 48px; margin-bottom: 12px; display: block; }
         .card-header h1 { font-size: 26px; color: white; font-weight: 800; margin-bottom: 6px; }
         .card-header p { color: rgba(255,255,255,0.5); font-size: 14px; }
@@ -179,25 +208,10 @@
         }
     </style>
 </head>
-<body>
-<div class="container">
-    <div style="margin-bottom:20px;">
-    <a href="/"
-       style="
-        display:inline-flex;
-        align-items:center;
-        gap:8px;
-        text-decoration:none;
-        background:rgba(255,255,255,0.2);
-        color:white;
-        padding:10px 18px;
-        border-radius:12px;
-        font-weight:600;
-        backdrop-filter:blur(10px);">
 
-        ← Home
-    </a>
-</div>
+<body>
+
+<div class="container">
 
     <div class="lang-toggle">
         <div class="lang-btn">
@@ -207,6 +221,11 @@
     </div>
 
     <div class="card">
+
+        <a href="/" class="home-btn">
+            ← Home
+        </a>
+
         <div class="card-header">
             <span class="icon">💱</span>
             <h1 id="title">நாணய மாற்றி</h1>
@@ -272,7 +291,9 @@
         {
             <div class="error-box">⚠️ @ViewBag.Error</div>
         }
+
     </div>
+
 </div>
 
 <script>
@@ -314,5 +335,6 @@
         document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     }
 </script>
+
 </body>
 </html>
