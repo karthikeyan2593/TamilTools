@@ -6,32 +6,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="tbIoct1pg6pvYDoQ8iKz6L28OYNqr_7_wDsFDflOryQ" />
+
     <title>@ViewData["Title"] - TamilTools</title>
+
     <meta name="description" content="@(ViewData["Description"] ?? "TamilTools - Free Online Tools in Tamil. EMI Calculator, Salary Calculator, Currency Converter and more!")" />
     <meta name="keywords" content="@(ViewData["Keywords"] ?? "tamil tools, free online tools, EMI calculator tamil, salary calculator tamil")" />
     <meta name="robots" content="index, follow" />
+
     <meta property="og:title" content="@ViewData["Title"] - TamilTools" />
     <meta property="og:description" content="@(ViewData["Description"] ?? "Free Online Tools in Tamil")" />
-    <meta property="og:url" content="https://tamiltools.onrender.com" />
+    <meta property="og:url" content="https://tamiltools.co.in" />
     <meta property="og:type" content="website" />
-    <meta name="description" content="@ViewData["Description"]" />
-    <meta name="keywords" content="@ViewData["Keywords"]" />
+
     <script type="importmap"></script>
-    up
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TamilTools.styles.css" asp-append-version="true" />
 
+    <!-- Adsense -->
     <meta name="google-adsense-account" content="ca-pub-6802993501474177">
-    <!-- Google tag (gtag.js) -->
+
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6802993501474177"
+            crossorigin="anonymous">
+    </script>
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XCQTHFZB29"></script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+        dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
         gtag('config', 'G-XCQTHFZB29');
     </script>
+
+    <!-- Adsterra Social Bar -->
     <script src="https://pl29438967.profitablecpmratenetwork.com/8c/01/55/8c015550bd97dbac7d4620f3bf992356.js"></script>
+
 </head>
 
 <body>
@@ -39,75 +56,115 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">TamilTools</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+
+                <a class="navbar-brand"
+                       asp-controller="Home"
+                       asp-action="Index">
+                    TamilTools
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse">
+
                     <span class="navbar-toggler-icon"></span>
+
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark"
+                                   asp-controller="Home"
+                                   asp-action="Index">
+                                Home
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark"
+                                   asp-controller="Home"
+                                   asp-action="Privacy">
+                                Privacy
+                            </a>
                         </li>
+
                     </ul>
+
                 </div>
+
             </div>
         </nav>
     </header>
 
     <div class="container">
+
         <main role="main" class="pb-3">
 
-            <!-- 🔥 Banner Ad (Top) -->
+            <!-- Top Banner Ad -->
             <div style="text-align:center; margin-bottom:15px;">
+
                 <script>
-                                    atOptions = {
-                                      'key' : '122e16a3651db05d45c38c6c76ff6905',
-                                      'format' : 'iframe',
-                                      'height' : 250,
-                                      'width' : 300,
-                                      'params' : {}
-                                    };
+                    atOptions = {
+                    'key': '122e16a3651db05d45c38c6c76ff6905',
+                    'format': 'iframe',
+                    'height': 250,
+                    'width': 300,
+                    'params': {}
+                    };
                 </script>
+
                 <script src="https://www.highperformanceformat.com/122e16a3651db05d45c38c6c76ff6905/invoke.js"></script>
+
             </div>
 
             @RenderBody()
 
-            <!-- 🔥 Banner Ad (Bottom) -->
+            <!-- Bottom Banner Ad -->
             <div style="text-align:center; margin-top:15px;">
+
                 <script>
                     atOptions = {
-                    'key' : '122e16a3651db05d45c38c6c76ff6905',
-                    'format' : 'iframe',
-                    'height' : 250,
-                    'width' : 300,
-                    'params' : {}
+                    'key': '122e16a3651db05d45c38c6c76ff6905',
+                    'format': 'iframe',
+                    'height': 250,
+                    'width': 300,
+                    'params': {}
                     };
                 </script>
+
                 <script src="https://www.highperformanceformat.com/122e16a3651db05d45c38c6c76ff6905/invoke.js"></script>
+
             </div>
 
         </main>
+
     </div>
 
     <footer class="border-top footer text-muted">
+
         <div class="container">
             &copy; 2026 - TamilTools -
-            <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <a asp-controller="Home"
+                   asp-action="Privacy">
+                Privacy
+            </a>
         </div>
+
     </footer>
 
     <!-- JS Files -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <!-- 🔥 Popunder Ad -->
-    <script src="https://pl29336317.profitablecpmratenetwork.com/22/ae/cc/22aecc62df48701dd39fef7fde6e7cc9.js"></script>
+    <!-- Adsterra Popunder -->
+    
 
     @await RenderSectionAsync("Scripts", required: false)
 
