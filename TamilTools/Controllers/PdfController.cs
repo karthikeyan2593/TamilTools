@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using iTextSharp.text;
 using iTextSharp.text.pdf;
 
 namespace TamilTools.Controllers
@@ -16,43 +15,55 @@ namespace TamilTools.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Convert(List<IFormFile> images)
+        [HttpGet]
+        public IActionResult Compress()
         {
-            if (images == null || images.Count == 0)
-            {
-                ViewBag.Error = "தயவுசெய்து படங்களை தேர்வு செய்யுங்கள்!";
-                return View("Index");
-            }
+            return View();
+        }
 
-            using var ms = new MemoryStream();
-            var document = new Document(PageSize.A4);
-            var writer = PdfWriter.GetInstance(document, ms);
-            document.Open();
-
-            foreach (var image in images)
+        [HttpPost]
+        public IActionResult Compress(IFormFile pdfFile)
+        {
+            try
             {
-                if (image.Length > 0)
+                if (pdfFile == null || pdfFile.Length == 0)
                 {
-                    using var imgStream = new MemoryStream();
-                    await image.CopyToAsync(imgStream);
-                    var imgBytes = imgStream.ToArray();
-
-                    var pdfImage = iTextSharp.text.Image.GetInstance(imgBytes);
-                    pdfImage.ScaleToFit(document.PageSize.Width - 40,
-                                       document.PageSize.Height - 40);
-                    pdfImage.Alignment = Element.ALIGN_CENTER;
-
-                    document.Add(pdfImage);
-                    document.NewPage();
+                    TempData["Error"] = "Please upload PDF";
+                    return RedirectToAction("Compress");
                 }
+
+                using var inputStream = pdfFile.OpenReadStream();
+
+                PdfReader reader = new PdfReader(inputStream);
+
+                using var outputStream = new MemoryStream();
+
+                PdfStamper stamper = new PdfStamper(
+                    reader,
+                    outputStream,
+                    PdfWriter.VERSION_1_5
+                );
+
+                stamper.FormFlattening = true;
+
+                stamper.Close();
+                reader.Close();
+
+                byte[] compressedBytes = outputStream.ToArray();
+
+                Console.WriteLine("Original Size: " + pdfFile.Length);
+                Console.WriteLine("Compressed Size: " + compressedBytes.Length);
+
+                return File(
+                    compressedBytes,
+                    "application/pdf",
+                    "compressed.pdf"
+                );
             }
-
-
-
-            document.Close();
-
-            return File(ms.ToArray(), "application/pdf", "TamilTools-converted.pdf");
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿# Views/Pdf/Merge.cshtml
-
-```cshtml
-@{
+﻿@{
     ViewData["Title"] = "Merge PDF - TamilTools";
 
     ViewData["Description"] = "Merge multiple PDF files into one PDF online for free.";
@@ -11,6 +8,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
@@ -258,6 +256,26 @@
                     font-size: 15px;
                 }
 
+            .seo-section {
+                margin-top: 50px;
+                background: rgba(255,255,255,0.05);
+                padding: 30px;
+                border-radius: 20px;
+                line-height: 1.8;
+                border: 1px solid rgba(255,255,255,0.08);
+            }
+
+                .seo-section h2,
+                .seo-section h3 {
+                    margin-bottom: 15px;
+                    color: white;
+                }
+
+                .seo-section p,
+                .seo-section li {
+                    color: #d6deef;
+                }
+
             @@media(max-width:768px) {
 
                 .header h1 {
@@ -276,6 +294,7 @@
     </style>
 
 </head>
+
 <body>
 
     <div class="container">
@@ -412,6 +431,30 @@
 
             </div>
 
+            <div class="seo-section">
+
+                <h2>
+                    Free Merge PDF Tool Online
+                </h2>
+
+                <p>
+                    Merge multiple PDF files into one PDF document easily using TamilTools.
+                    This free online PDF merger helps you combine PDFs securely without installing software.
+                </p>
+
+                <h3>
+                    Features
+                </h3>
+
+                <ul>
+                    <li>Combine unlimited PDF files</li>
+                    <li>Fast and secure merging</li>
+                    <li>No watermark</li>
+                    <li>Works on mobile and desktop</li>
+                </ul>
+
+            </div>
+
         </div>
 
     </div>
@@ -508,6 +551,7 @@
             }
 
     </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
     <script>
@@ -593,32 +637,5 @@
     </script>
 
 </body>
+
 </html>
-```
-
----
-
-# Add this inside PdfController.cs
-
-```csharp
-public IActionResult Merge()
-{
-return View();
-}
-```
-
----
-
-# Create file path
-
-```text
-Views/Pdf/Merge.cshtml
-```
-
----
-
-# URL
-
-```text
-/Pdf/Merge
-```
