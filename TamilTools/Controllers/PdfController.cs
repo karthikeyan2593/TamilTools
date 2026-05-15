@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using iTextSharp.text.pdf;
+using System.Diagnostics;
 
 namespace TamilTools.Controllers
 {
@@ -28,34 +28,59 @@ namespace TamilTools.Controllers
             {
                 if (pdfFile == null || pdfFile.Length == 0)
                 {
-                    TempData["Error"] = "Please upload PDF";
-                    return RedirectToAction("Compress");
+                    return Content("No PDF uploaded");
                 }
 
-                using var inputStream = pdfFile.OpenReadStream();
-
-                PdfReader reader = new PdfReader(inputStream);
-
-                using var outputStream = new MemoryStream();
-
-                PdfStamper stamper = new PdfStamper(
-                    reader,
-                    outputStream,
-                    PdfWriter.VERSION_1_5
+                string uploadsFolder = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot/temp"
                 );
 
-                stamper.FormFlattening = true;
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
 
-                stamper.Close();
-                reader.Close();
+                string inputPath = Path.Combine(
+                    uploadsFolder,
+                    Guid.NewGuid() + ".pdf"
+                );
 
-                byte[] compressedBytes = outputStream.ToArray();
+                string outputPath = Path.Combine(
+                    uploadsFolder,
+                    Guid.NewGuid() + "-compressed.pdf"
+                );
 
-                Console.WriteLine("Original Size: " + pdfFile.Length);
-                Console.WriteLine("Compressed Size: " + compressedBytes.Length);
+                using (var stream = new FileStream(inputPath, FileMode.Create))
+                {
+                    pdfFile.CopyTo(stream);
+                }
+
+                string gsPath =
+                    @"C:\Program Files\gs\gs10.07.0\bin\gswin64c.exe";
+
+                string args =
+                    $"-sDEVICE=pdfwrite " +
+                    $"-dCompatibilityLevel=1.4 " +
+                    $"-dPDFSETTINGS=/screen " +
+                    $"-dNOPAUSE -dQUIET -dBATCH " +
+                    $"-sOutputFile=\"{outputPath}\" " +
+                    $"\"{inputPath}\"";
+
+                Process process = new Process();
+
+                process.StartInfo.FileName = gsPath;
+                process.StartInfo.Arguments = args;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.UseShellExecute = false;
+
+                process.Start();
+                process.WaitForExit();
+
+                byte[] fileBytes = System.IO.File.ReadAllBytes(outputPath);
 
                 return File(
-                    compressedBytes,
+                    fileBytes,
                     "application/pdf",
                     "compressed.pdf"
                 );

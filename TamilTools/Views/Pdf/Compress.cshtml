@@ -443,45 +443,76 @@
 
 <script>
 
-    const pdfInput =
-        document.getElementById('pdfInput');
+    async function compressPDF() {
 
-    const filePreview =
-        document.getElementById('filePreview');
+        const fileInput =
+            document.getElementById("pdfFile");
 
-    const fileName =
-        document.getElementById('fileName');
+        if (fileInput.files.length === 0) {
 
-    const fileSize =
-        document.getElementById('fileSize');
-
-    const qualityRange =
-        document.getElementById('qualityRange');
-
-    const qualityText =
-        document.getElementById('qualityText');
-
-    pdfInput.addEventListener('change', function () {
-
-        const file = this.files[0];
-
-        if (file) {
-
-            filePreview.classList.add('active');
-
-            fileName.textContent =
-                file.name;
-
-            fileSize.textContent =
-                (file.size / 1024 / 1024).toFixed(2)
-                + ' MB';
+            alert("Select PDF file");
+            return;
         }
-    });
 
-    qualityRange.addEventListener('input', function () {
+        try {
 
-        qualityText.textContent =
-            this.value + '%';
-    });
+            const file =
+                fileInput.files[0];
+
+            const arrayBuffer =
+                await file.arrayBuffer();
+
+            const pdfDoc =
+                await PDFLib.PDFDocument.load(arrayBuffer);
+
+            const pdfBytes =
+                await pdfDoc.save({
+                    useObjectStreams: true
+                });
+
+            const blob =
+                new Blob(
+                    [pdfBytes],
+                    { type: "application/pdf" }
+                );
+
+            const url =
+                URL.createObjectURL(blob);
+
+            const a =
+                document.createElement("a");
+
+            a.href = url;
+
+            a.download =
+                "compressed-" +
+                Date.now() +
+                ".pdf";
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            document.body.removeChild(a);
+
+            setTimeout(() => {
+
+                URL.revokeObjectURL(url);
+
+            }, 1000);
+
+            fileInput.value = "";
+
+            alert("PDF compressed successfully!");
+
+        }
+        catch (error) {
+
+            console.error(error);
+
+            alert("Compression failed");
+
+        }
+    }
 
 </script>
