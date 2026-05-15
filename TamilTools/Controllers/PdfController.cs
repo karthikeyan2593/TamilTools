@@ -24,71 +24,65 @@ namespace TamilTools.Controllers
         [HttpPost]
         public IActionResult Compress(IFormFile pdfFile)
         {
-            try
-            {
-                if (pdfFile == null || pdfFile.Length == 0)
-                {
-                    return Content("No PDF uploaded");
-                }
+            if (pdfFile == null || pdfFile.Length == 0)
+                return BadRequest("No file");
 
-                string uploadsFolder = Path.Combine(
+            string uploads =
+                Path.Combine(
                     Directory.GetCurrentDirectory(),
-                    "wwwroot/temp"
-                );
+                    "wwwroot/temp");
 
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
+            Directory.CreateDirectory(uploads);
 
-                string inputPath = Path.Combine(
-                    uploadsFolder,
-                    Guid.NewGuid() + ".pdf"
-                );
+            string inputPath =
+                Path.Combine(
+                    uploads,
+                    Guid.NewGuid() + ".pdf");
 
-                string outputPath = Path.Combine(
-                    uploadsFolder,
-                    Guid.NewGuid() + "-compressed.pdf"
-                );
+            string outputPath =
+                Path.Combine(
+                    uploads,
+                    Guid.NewGuid() + "-compressed.pdf");
 
-                using (var stream = new FileStream(inputPath, FileMode.Create))
-                {
-                    pdfFile.CopyTo(stream);
-                }
-
-                string gsPath =
-                    @"C:\Program Files\gs\gs10.07.0\bin\gswin64c.exe";
-
-                string args =
-                    $"-sDEVICE=pdfwrite " +
-                    $"-dCompatibilityLevel=1.4 " +
-                    $"-dPDFSETTINGS=/screen " +
-                    $"-dNOPAUSE -dQUIET -dBATCH " +
-                    $"-sOutputFile=\"{outputPath}\" " +
-                    $"\"{inputPath}\"";
-
-                Process process = new Process();
-
-                process.StartInfo.FileName = gsPath;
-                process.StartInfo.Arguments = args;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.UseShellExecute = false;
-
-                process.Start();
-                process.WaitForExit();
-
-                byte[] fileBytes = System.IO.File.ReadAllBytes(outputPath);
-
-                return File(
-                    fileBytes,
-                    "application/pdf",
-                    "compressed.pdf"
-                );
-            }
-            catch (Exception ex)
+            using (var stream =
+                new FileStream(inputPath, FileMode.Create))
             {
-                return Content(ex.Message);
+                pdfFile.CopyTo(stream);
             }
+
+            string gsPath = @"C:\Program Files\gs\gs10.07.0\bin\gswin64c.exe";
+
+            string args =
+            $"-sDEVICE=pdfwrite " +
+            $"-dCompatibilityLevel=1.4 " +
+            $"-dPDFSETTINGS=/screen " +
+            $"-dNOPAUSE " +
+            $"-dQUIET " +
+            $"-dBATCH " +
+            $"-sOutputFile=\"{outputPath}\" " +
+            $"\"{inputPath}\"";
+
+            Process process = new Process();
+
+            process.StartInfo.FileName = gsPath;
+            process.StartInfo.Arguments = args;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.UseShellExecute = false;
+
+            process.Start();
+            process.WaitForExit();
+
+
+            byte[] fileBytes =
+                System.IO.File.ReadAllBytes(outputPath);
+
+            System.IO.File.Delete(inputPath);
+            System.IO.File.Delete(outputPath);
+
+            return File(
+                fileBytes,
+                "application/pdf",
+                "compressed.pdf");
         }
     }
 }
