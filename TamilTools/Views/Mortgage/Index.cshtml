@@ -1,0 +1,392 @@
+﻿@{
+ViewData["Title"] = "Mortgage Calculator - TamilTools";
+ViewData["Description"] = "Free US Mortgage Calculator. Calculate monthly payment, total interest and amortization schedule.";
+ViewData["Keywords"] = "mortgage calculator, home loan calculator, monthly payment calculator, amortization calculator";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage Calculator</title>
+
+```
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background:
+            radial-gradient(circle at top left, #1f1f3d 0%, transparent 30%),
+            radial-gradient(circle at bottom right, #16213e 0%, transparent 30%),
+            linear-gradient(135deg, #0d0d1a 0%, #12122a 100%);
+        min-height: 100vh;
+        padding: 30px 20px;
+        color: white;
+    }
+
+    .container {
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    .home-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.08);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 16px;
+        backdrop-filter: blur(10px);
+        transition: 0.3s;
+    }
+
+    .home-btn:hover {
+        background: rgba(255,255,255,0.15);
+        transform: translateY(-2px);
+    }
+
+    .card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 28px;
+        padding: 36px;
+        backdrop-filter: blur(16px);
+        margin-bottom: 20px;
+        box-shadow:
+            0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .card-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .card-header .icon {
+        font-size: 52px;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .card-header h1 {
+        font-size: 30px;
+        color: white;
+        font-weight: 800;
+        margin-bottom: 8px;
+        letter-spacing: -0.5px;
+    }
+
+    .card-header p {
+        color: rgba(255,255,255,0.6);
+        font-size: 14px;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-prefix {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #4fc3f7;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100%;
+        padding: 14px 14px 14px 38px;
+        border: 2px solid rgba(255,255,255,0.08);
+        border-radius: 14px;
+        font-size: 16px;
+        color: white;
+        font-weight: 600;
+        background: rgba(255,255,255,0.04);
+        transition: all 0.3s;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+        outline: none;
+        border-color: #4fc3f7;
+        box-shadow: 0 0 0 4px rgba(79,195,247,0.12);
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .calc-btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #4fc3f7, #0288d1);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+    }
+
+    .calc-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(79,195,247,0.4);
+    }
+
+    .payment-big {
+        background: linear-gradient(135deg, #4fc3f7, #0288d1);
+        border-radius: 18px;
+        padding: 26px;
+        text-align: center;
+        color: white;
+        margin-top: 28px;
+        margin-bottom: 18px;
+        box-shadow:
+            0 10px 30px rgba(79,195,247,0.25);
+    }
+
+    .payment-big .label {
+        font-size: 13px;
+        opacity: 0.8;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+
+    .payment-big .amount {
+        font-size: 44px;
+        font-weight: 800;
+    }
+
+    .payment-big .sub {
+        font-size: 13px;
+        opacity: 0.7;
+        margin-top: 4px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .stat-box {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 18px;
+        backdrop-filter: blur(10px);
+    }
+
+    .stat-box .stat-label {
+        font-size: 11px;
+        color: rgba(255,255,255,0.5);
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+
+    .stat-box .stat-value {
+        font-size: 20px;
+        font-weight: 800;
+        color: white;
+    }
+
+    .stat-box.interest .stat-value {
+        color: #ef5350;
+    }
+
+    .stat-box.loan .stat-value {
+        color: #4fc3f7;
+    }
+
+    .chart-card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 24px;
+        padding: 28px;
+        backdrop-filter: blur(14px);
+    }
+
+    .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .chart-header h3 {
+        font-size: 16px;
+        color: white;
+        font-weight: 800;
+    }
+
+    .chart-legend {
+        display: flex;
+        gap: 16px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #aaa;
+    }
+
+    .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+    }
+
+    .chart-wrap {
+        position: relative;
+        height: 280px;
+    }
+
+    .chart-note {
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        margin-top: 12px;
+    }
+
+    @@media (max-width: 480px) {
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            padding: 24px;
+        }
+    }
+
+</style>
+
+
+</head>
+
+
+
+<div class="container">
+
+```
+<a href="/" class="home-btn">← Home</a>
+
+<div class="card">
+
+    <div class="card-header">
+        <span class="icon">🏠</span>
+        <h1>Mortgage Calculator</h1>
+        <p>Calculate your monthly home loan payment</p>
+    </div>
+
+    <form method="post" action="/Mortgage/Calculate">
+
+        <div class="input-group">
+            <label>Home Price</label>
+
+            <div class="input-wrapper">
+                <span class="input-prefix">$</span>
+
+                <input type="number"
+                       name="homePrice"
+                       placeholder="400000"
+                       value="@ViewBag.InputHomePrice"
+                       required />
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Down Payment</label>
+
+            <div class="input-wrapper">
+                <span class="input-prefix">$</span>
+
+                <input type="number"
+                       name="downPayment"
+                       placeholder="80000"
+                       value="@ViewBag.InputDownPayment"
+                       required />
+            </div>
+        </div>
+
+        <div class="grid-2">
+
+            <div class="input-group">
+                <label>Interest Rate (%)</label>
+
+                <div class="input-wrapper">
+                    <span class="input-prefix">%</span>
+
+                    <input type="number"
+                           name="interestRate"
+                           step="0.1"
+                           placeholder="7.5"
+                           value="@ViewBag.InputRate"
+                           required />
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Loan Term (Years)</label>
+
+                <div class="input-wrapper">
+                    <span class="input-prefix">📅</span>
+
+                    <input type="number"
+                           name="years"
+                           placeholder="30"
+                           value="@ViewBag.InputYears"
+                           required />
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="calc-btn">
+            🏠 Calculate Mortgage
+        </button>
+
+    </form>
