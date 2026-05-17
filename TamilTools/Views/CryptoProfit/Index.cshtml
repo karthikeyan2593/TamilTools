@@ -1,0 +1,343 @@
+﻿@model TamilTools.Models.FuturesPnLViewModel
+
+@{
+    ViewData["Title"] = "Crypto Profit Calculator";
+    ViewData["Description"] = "Calculate crypto trading profit, ROI percentage and final returns instantly using TamilTools Crypto Profit Calculator.";
+    ViewData["Keywords"] = "crypto profit calculator, bitcoin profit calculator, ROI calculator, crypto trading calculator";
+}
+
+@section Head {
+
+    <meta name="description" content="Calculate crypto trading profit, ROI percentage and final returns instantly using TamilTools Crypto Profit Calculator." />
+
+    <meta name="keywords" content="crypto profit calculator, bitcoin profit calculator, ROI calculator, crypto trading calculator" />
+
+    <script type="application/ld+json">
+        {
+        "@@context": "https://schema.org",
+        "@@type": "WebApplication",
+        "name": "Crypto Profit Calculator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "description": "Calculate crypto trading profit, ROI percentage and final returns instantly."
+        }
+    </script>
+
+}
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg,#020617,#081028,#000814);
+        min-height: 100vh;
+        color: white;
+        padding: 30px 15px;
+    }
+
+    .page-container {
+        max-width: 950px;
+        margin: auto;
+    }
+
+    .home-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: white;
+        padding: 12px 18px;
+        border-radius: 14px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        transition: 0.3s;
+    }
+
+        .home-btn:hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+    .main-card {
+        background: linear-gradient(145deg,#121c34,#0b1224);
+        border-radius: 32px;
+        padding: 45px;
+        box-shadow: 0 25px 80px rgba(0,0,0,0.45);
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .title-section {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .title-section h1 {
+            font-size: 58px;
+            font-weight: 900;
+            background: linear-gradient(135deg,#fbbf24,#f97316);
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .title-section p {
+            color: #cbd5e1;
+            font-size: 19px;
+        }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 28px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 10px;
+        color: #f8fafc;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .input-group input {
+        width: 100%;
+        height: 68px;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.06);
+        color: white;
+        padding: 0 22px;
+        font-size: 22px;
+        font-weight: 700;
+        outline: none;
+        transition: 0.3s;
+    }
+
+        .input-group input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 4px rgba(245,158,11,0.2);
+        }
+
+        .input-group input::placeholder {
+            color: #94a3b8;
+        }
+
+    .btn-calc {
+        width: 100%;
+        margin-top: 35px;
+        height: 72px;
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(135deg,#f59e0b,#ea580c);
+        color: white;
+        font-size: 24px;
+        font-weight: 900;
+        transition: 0.3s;
+        box-shadow: 0 12px 35px rgba(249,115,22,0.4);
+    }
+
+        .btn-calc:hover {
+            transform: translateY(-3px);
+        }
+
+    .result-grid {
+        margin-top: 35px;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 22px;
+    }
+
+    .result-card {
+        background: rgba(255,255,255,0.05);
+        border-radius: 24px;
+        padding: 30px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+        .result-card h3 {
+            color: #cbd5e1;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h2 {
+            font-size: 42px;
+            font-weight: 900;
+        }
+
+    .profit {
+        color: #22c55e;
+    }
+
+    .loss {
+        color: #ef4444;
+    }
+
+    .neutral {
+        color: #f59e0b;
+    }
+
+    .seo-box {
+        margin-top: 45px;
+        background: linear-gradient(145deg,#101827,#111827);
+        border-radius: 26px;
+        padding: 35px;
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+        .seo-box h2 {
+            font-size: 38px;
+            margin-bottom: 18px;
+            color: white;
+        }
+
+        .seo-box p {
+            color: #cbd5e1;
+            line-height: 1.9;
+            font-size: 18px;
+        }
+
+    @@media(max-width:768px) {
+
+        .main-card {
+            padding: 25px;
+        }
+
+        .title-section h1 {
+            font-size: 38px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .result-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .result-card h2 {
+            font-size: 34px;
+        }
+    }
+
+</style>
+
+<div class="page-container">
+
+    <a href="/" class="home-btn">
+        ← Home
+    </a>
+
+    <div class="main-card">
+
+        <div class="title-section">
+            <h1>₿ Crypto Profit Calculator</h1>
+            <p>
+                Calculate crypto trading profit, ROI percentage and final returns instantly.
+            </p>
+        </div>
+
+        <form method="post">
+
+            <div class="form-grid">
+
+                <div class="input-group">
+                    <label>Buy Price ($)</label>
+
+                    <input type="number"
+                           step="0.01"
+                           asp-for="BuyPrice"
+                           placeholder="Enter buy price" />
+                </div>
+
+                <div class="input-group">
+                    <label>Sell Price ($)</label>
+
+                    <input type="number"
+                           step="0.01"
+                           asp-for="SellPrice"
+                           placeholder="Enter sell price" />
+                </div>
+
+                <div class="input-group">
+                    <label>Investment Amount ($)</label>
+
+                    <input type="number"
+                           step="0.01"
+                           asp-for="InvestmentAmount"
+                           placeholder="Enter investment amount" />
+                </div>
+
+                <div class="input-group">
+                    <label>Trading Fee (%)</label>
+
+                    <input type="number"
+                           step="0.01"
+                           asp-for="TradingFee"
+                           placeholder="Exchange trading fee" />
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-calc">
+                Calculate Profit
+            </button>
+
+        </form>
+
+        @if (Model != null && Model.FinalAmount > 0)
+        {
+            <div class="result-grid">
+
+                <div class="result-card">
+                    <h3>Final Amount</h3>
+
+                    <h2 class="neutral">
+                        $@Model.FinalAmount.ToString("N2")
+                    </h2>
+                </div>
+
+                <div class="result-card">
+                    <h3>Profit / Loss</h3>
+
+                    <h2 class="@(Model.ProfitLoss >= 0 ? "profit" : "loss")">
+                        $@Model.ProfitLoss.ToString("N2")
+                    </h2>
+                </div>
+
+                <div class="result-card">
+                    <h3>ROI %</h3>
+
+                    <h2 class="@(Model.ROI >= 0 ? "profit" : "loss")">
+                        @Model.ROI.ToString("N2")%
+                    </h2>
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="seo-box">
+
+        <h2>What is Crypto Profit Calculator?</h2>
+
+        <p>
+            Crypto Profit Calculator helps traders and investors calculate profit,
+            loss and ROI from cryptocurrency trading instantly.
+            You can calculate Bitcoin, Ethereum and all crypto investment returns
+            accurately including exchange trading fees.
+        </p>
+
+    </div>
+
+</div>

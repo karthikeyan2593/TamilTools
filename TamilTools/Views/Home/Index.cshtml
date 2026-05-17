@@ -1,18 +1,24 @@
 ﻿@{
     ViewData["Title"] = "TamilTools - Free Online Tools in Tamil";
-    ViewData["Description"] = "தமிழில் இலவச online tools. EMI Calculator, Salary Calculator, Currency Converter, Horoscope Matching மற்றும் பல tools.";
-    ViewData["Keywords"] = "tamil tools, free online tools tamil, தமிழ் கருவிகள், online calculator tamil";
+    ViewData["Description"] = "Free premium online calculators and utility tools in Tamil.";
 }
 
 <!DOCTYPE html>
 
-<html lang="ta">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TamilTools - Free Online Tools</title>
+<html lang="en">
 
-    ```
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description"
+          content="TamilTools offers free online calculators, converters, finance tools, PDF tools and more in Tamil." />
+
+    <title>TamilTools</title>
+
     <style>
 
             * {
@@ -22,411 +28,412 @@
             }
 
             body {
-                font-family: 'Segoe UI', Arial, sans-serif;
-                background: #0d0d1a;
-                min-height: 100vh;
+                font-family: 'Segoe UI', sans-serif;
+                background: #050816;
                 color: white;
+                overflow-x: hidden;
+            }
+
+            a {
+                text-decoration: none;
             }
 
             .hero {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                padding: 60px 20px;
+                padding: 90px 20px;
                 text-align: center;
+                background: linear-gradient(135deg,#4f46e5,#7c3aed);
             }
 
                 .hero h1 {
-                    font-size: clamp(28px, 5vw, 48px);
+                    font-size: 58px;
                     font-weight: 800;
-                    margin-bottom: 12px;
-                    letter-spacing: -1px;
+                    margin-bottom: 14px;
                 }
 
                 .hero p {
-                    font-size: 16px;
-                    opacity: 0.8;
-                    max-width: 500px;
-                    margin: 0 auto 24px;
-                }
-
-            .lang-toggle {
-                display: flex;
-                justify-content: center;
-            }
-
-            .lang-btn {
-                background: rgba(255,255,255,0.2);
-                border-radius: 50px;
-                padding: 5px;
-                display: flex;
-                gap: 4px;
-            }
-
-            .lang-option {
-                padding: 7px 16px;
-                border-radius: 50px;
-                font-size: 13px;
-                font-weight: 600;
-                cursor: pointer;
-                border: none;
-                background: transparent;
-                color: rgba(255,255,255,0.7);
-                transition: all 0.3s;
-            }
-
-                .lang-option.active {
-                    background: white;
-                    color: #667eea;
+                    font-size: 18px;
+                    opacity: 0.9;
                 }
 
             .tools-section {
-                padding: 50px 20px;
-                max-width: 1000px;
-                margin: 0 auto;
+                max-width: 1350px;
+                margin: auto;
+                padding: 60px 20px;
             }
 
             .section-title {
-                font-size: 20px;
-                font-weight: 700;
-                color: rgba(255,255,255,0.5);
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                margin-bottom: 24px;
                 text-align: center;
+                font-size: 30px;
+                font-weight: 800;
+                margin-bottom: 45px;
             }
 
             .tools-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 16px;
+                grid-template-columns: repeat(auto-fit,minmax(270px,1fr));
+                gap: 28px;
             }
 
             .tool-card {
                 background: rgba(255,255,255,0.05);
-                border: 1px solid rgba(255,255,255,0.1);
-                border-radius: 20px;
-                padding: 28px 24px;
-                text-decoration: none;
-                transition: all 0.3s;
-                display: block;
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 24px;
+                padding: 30px;
+                transition: 0.3s ease;
+                color: white;
+                min-height: 260px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
             }
 
                 .tool-card:hover {
-                    transform: translateY(-4px);
-                    border-color: rgba(255,255,255,0.3);
-                    background: rgba(255,255,255,0.08);
+                    transform: translateY(-8px);
+                    border-color: #6366f1;
+                    box-shadow: 0 20px 40px rgba(99,102,241,0.25);
                 }
 
             .tool-icon {
-                font-size: 40px;
-                margin-bottom: 16px;
-                display: block;
+                font-size: 46px;
+                margin-bottom: 18px;
             }
 
             .tool-name {
-                font-size: 18px;
+                font-size: 26px;
                 font-weight: 700;
-                color: white;
-                margin-bottom: 8px;
+                margin-bottom: 12px;
+                line-height: 1.3;
             }
 
             .tool-desc {
-                font-size: 13px;
-                color: rgba(255,255,255,0.5);
-                line-height: 1.5;
+                color: rgba(255,255,255,0.72);
+                line-height: 1.7;
+                font-size: 15px;
+                margin-bottom: 22px;
             }
 
             .tool-tag {
                 display: inline-block;
-                margin-top: 12px;
-                padding: 4px 12px;
-                border-radius: 50px;
+                padding: 7px 15px;
+                border-radius: 30px;
                 font-size: 11px;
                 font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
+                letter-spacing: 0.6px;
+                width: fit-content;
             }
 
             .tag-finance {
-                background: rgba(102,126,234,0.2);
-                color: #667eea;
-            }
-
-            .tag-pdf {
-                background: rgba(247,151,30,0.2);
-                color: #f7971e;
-            }
-
-            .tag-currency {
-                background: rgba(233,69,96,0.2);
-                color: #e94560;
-            }
-
-            .tag-astro {
-                background: rgba(167,139,250,0.2);
-                color: #a78bfa;
-            }
-
-            .tag-news {
-                background: rgba(231,76,60,0.2);
-                color: #e74c3c;
+                background: rgba(79,70,229,0.22);
+                color: #8b5cf6;
             }
 
             .tag-health {
-                background: rgba(102,187,106,0.2);
-                color: #66bb6a;
+                background: rgba(34,197,94,0.20);
+                color: #22c55e;
             }
 
             .tag-utility {
-                background: rgba(167,139,250,0.2);
-                color: #a78bfa;
+                background: rgba(249,115,22,0.20);
+                color: #f97316;
+            }
+
+            .tag-pdf {
+                background: rgba(236,72,153,0.20);
+                color: #ec4899;
+            }
+
+            .tag-news {
+                background: rgba(239,68,68,0.20);
+                color: #ef4444;
+            }
+
+            .tag-astro {
+                background: rgba(168,85,247,0.20);
+                color: #c084fc;
             }
 
             footer {
-                border-top: 1px solid rgba(255,255,255,0.1);
-                padding: 24px 20px;
+                margin-top: 70px;
+                padding: 30px;
                 text-align: center;
-                color: rgba(255,255,255,0.3);
-                font-size: 13px;
-                margin-top: 40px;
+                border-top: 1px solid rgba(255,255,255,0.08);
+                color: rgba(255,255,255,0.5);
             }
 
-                footer a {
-                    color: rgba(255,255,255,0.5);
-                    text-decoration: none;
+            @@media(max-width:768px) {
+
+                .hero h1 {
+                    font-size: 42px;
                 }
 
-                    footer a:hover {
-                        color: white;
-                    }
+                .section-title {
+                    font-size: 24px;
+                }
+
+                .tool-card {
+                    min-height: auto;
+                }
+            }
 
     </style>
-    ```
 
 </head>
 
 <body>
 
-    ```
     <div class="hero">
 
-        <h1 id="heroTitle">🛠️ TamilTools</h1>
+        <h1>
+            🛠️ TamilTools
+        </h1>
 
-        <p id="heroSubtitle">
-            இலவச ஆன்லைன் கருவிகள் — தமிழில்!
+        <p>
+            Free Premium Online Tools in Tamil
         </p>
-
-        <div class="lang-toggle">
-
-            <div class="lang-btn">
-
-                <button class="lang-option active">
-                    தமிழ்
-                </button>
-
-                <button class="lang-option">
-                    English
-                </button>
-
-                <button class="lang-option">
-                    हिंदी
-                </button>
-
-            </div>
-
-        </div>
 
     </div>
 
     <div class="tools-section">
 
         <div class="section-title">
-            எங்கள் கருவிகள்
+            Explore Our Tools
         </div>
 
         <div class="tools-grid">
 
             <!-- EMI -->
-            <a href="/Emi/Index" class="tool-card">
+            <a href="/Emi/Index"
+                   class="tool-card">
 
-                <span class="tool-icon">🏦</span>
+                <div>
 
-                <div class="tool-name">
-                    EMI கணக்கீடு
-                </div>
+                    <div class="tool-icon">🏦</div>
 
-                <div class="tool-desc">
-                    கடன் மாத தவணை கணக்கிடுங்கள்
+                    <div class="tool-name">
+                        EMI Calculator
+                    </div>
+
+                    <div class="tool-desc">
+                        Calculate monthly EMI payments for loans instantly.
+                    </div>
+
                 </div>
 
                 <span class="tool-tag tag-finance">
-                    நிதி
+                    FINANCE
                 </span>
 
             </a>
 
             <!-- Salary -->
-            <a href="/Salary/Index" class="tool-card">
+            <a href="/Salary/Index"
+                   class="tool-card">
 
-                <span class="tool-icon">💰</span>
+                <div>
 
-                <div class="tool-name">
-                    சம்பள கணக்கீடு
-                </div>
+                    <div class="tool-icon">💼</div>
 
-                <div class="tool-desc">
-                    கையில் கிடைக்கும் சம்பளம் கணக்கிடுங்கள்
+                    <div class="tool-name">
+                        Salary Calculator
+                    </div>
+
+                    <div class="tool-desc">
+                        Estimate net salary, deductions and monthly income.
+                    </div>
+
                 </div>
 
                 <span class="tool-tag tag-finance">
-                    நிதி
-                </span>
-
-            </a>
-
-            <!-- PDF -->
-            <a href="/Pdf/Index" class="tool-card">
-
-                <span class="tool-icon">🖼️</span>
-
-                <div class="tool-name">
-                    படம் to PDF
-                </div>
-
-                <div class="tool-desc">
-                    படங்களை PDF-ஆக மாற்றுங்கள்
-                </div>
-
-                <span class="tool-tag tag-pdf">
-                    PDF
-                </span>
-
-            </a>
-
-            <!-- Currency -->
-            <a href="/Currency/Index" class="tool-card">
-
-                <span class="tool-icon">💱</span>
-
-                <div class="tool-name">
-                    நாணய மாற்றி
-                </div>
-
-                <div class="tool-desc">
-                    உலக நாணயங்களை மாற்றுங்கள்
-                </div>
-
-                <span class="tool-tag tag-currency">
-                    நாணயம்
-                </span>
-
-            </a>
-
-            <!-- Horoscope -->
-            <a href="/Horoscope/Index" class="tool-card">
-
-                <span class="tool-icon">🌟</span>
-
-                <div class="tool-name">
-                    நட்சத்திர பொருத்தம்
-                </div>
-
-                <div class="tool-desc">
-                    திருமண பொருத்தம் கண்டறியுங்கள்
-                </div>
-
-                <span class="tool-tag tag-astro">
-                    ஜோதிடம்
-                </span>
-
-            </a>
-
-            <!-- News -->
-            <a href="/News/Index" class="tool-card">
-
-                <span class="tool-icon">📰</span>
-
-                <div class="tool-name">
-                    Tamil செய்திகள்
-                </div>
-
-                <div class="tool-desc">
-                    தினமும் புதிய Tamil செய்திகள் — Auto Updated!
-                </div>
-
-                <span class="tool-tag tag-news">
-                    செய்திகள்
+                    SALARY
                 </span>
 
             </a>
 
             <!-- Mortgage -->
-            <a href="/Mortgage/Index" class="tool-card">
+            <a href="/Mortgage/Index"
+                   class="tool-card">
 
-                <span class="tool-icon">🏠</span>
+                <div>
 
-                <div class="tool-name">
-                    Mortgage Calculator
-                </div>
+                    <div class="tool-icon">🏠</div>
 
-                <div class="tool-desc">
-                    Calculate your monthly home loan payment
+                    <div class="tool-name">
+                        Mortgage Calculator
+                    </div>
+
+                    <div class="tool-desc">
+                        Calculate monthly home loan payment instantly.
+                    </div>
+
                 </div>
 
                 <span class="tool-tag tag-finance">
-                    Finance
+                    MORTGAGE
                 </span>
 
             </a>
 
-            <!-- BMI -->
-            <a href="/Bmi/Index" class="tool-card">
+            <!-- LiquidationPrice -->
 
-                <span class="tool-icon">⚖️</span>
+            <a href="/LiquidationPrice/Index"
+                   class="tool-card">
 
-                <div class="tool-name">
-                    BMI Calculator
+                <div>
+
+                    <div class="tool-icon">
+                        ⚠️
+                    </div>
+
+                    <div class="tool-name">
+                        Liquidation Calculator
+                    </div>
+
+                    <div class="tool-desc">
+                        Calculate liquidation price for crypto futures trades.
+                    </div>
+
                 </div>
 
-                <div class="tool-desc">
-                    Calculate your Body Mass Index
-                </div>
-
-                <span class="tool-tag tag-health">
-                    Health
+                <span class="tool-tag tag-finance">
+                    CRYPTO
                 </span>
 
             </a>
 
-            <!-- Unit -->
-            <a href="/Unit/Index" class="tool-card">
+            <!-- Crypto Position Size Calculator -->
 
-                <span class="tool-icon">🔢</span>
+            <a href="/CryptoPositionSize/Index"
+                   class="tool-card">
 
-                <div class="tool-name">
-                    Unit Converter
+                <div>
+
+                    <div class="tool-icon">
+                        ₿
+                    </div>
+
+                    <div class="tool-name">
+                        Position Size Calculator
+                    </div>
+
+                    <div class="tool-desc">
+                        Calculate crypto trade size, leverage and risk management instantly.
+                    </div>
+
                 </div>
 
-                <div class="tool-desc">
-                    Convert length, weight, temperature & volume
+                <span class="tool-tag tag-finance">
+                    CRYPTO
+                </span>
+
+            </a>
+
+            <a href="/CryptoProfit" class="tool-card">
+
+                <div class="tool-icon">
+                    ₿
                 </div>
 
-                <span class="tool-tag tag-utility">
-                    Utility
+                <h3>
+                    Spot Profit
+                </h3>
+
+                <p>
+                    Calculate spot trading profit
+                    and ROI instantly.
+                </p>
+
+                <span>
+                    CRYPTO
+                </span>
+
+            </a>
+
+
+            <a href="/FuturesPnL" class="tool-card">
+
+                <div class="tool-icon">
+                    💹
+                </div>
+
+                <h3>
+                    Futures P&amp;L
+                </h3>
+
+                <p>
+                    Calculate futures profit,
+                    loss and ROI instantly.
+                </p>
+
+                <span>
+                    CRYPTO
+                </span>
+
+            </a>
+
+            <!-- SIP -->
+            <a href="/SipCalculator/Index"
+                   class="tool-card">
+
+                <div>
+
+                    <div class="tool-icon">💰</div>
+
+                    <div class="tool-name">
+                        SIP Calculator
+                    </div>
+
+                    <div class="tool-desc">
+                        Calculate mutual fund SIP returns and investment growth.
+                    </div>
+
+                </div>
+
+                <span class="tool-tag tag-finance">
+                    INVESTMENT
+                </span>
+
+            </a>
+
+            <!-- Federal Tax -->
+            <a href="/FederalTax/Index"
+                   class="tool-card">
+
+                <div>
+
+                    <div class="tool-icon">💵</div>
+
+                    <div class="tool-name">
+                        Federal Tax
+                    </div>
+
+                    <div class="tool-desc">
+                        Estimate federal income tax and effective tax rate.
+                    </div>
+
+                </div>
+
+                <span class="tool-tag tag-finance">
+                    TAX
                 </span>
 
             </a>
 
             <!-- GST -->
-            <a href="/Gst/Index" class="tool-card">
+            <a href="/Gst/Index"
+                   class="tool-card">
 
-                <span class="tool-icon">🧾</span>
+                <div>
 
-                <div class="tool-name">
-                    GST கணக்கீடு
-                </div>
+                    <div class="tool-icon">🧾</div>
 
-                <div class="tool-desc">
-                    GST வரியை எளிதாக கணக்கிடுங்கள்
+                    <div class="tool-name">
+                        GST Calculator
+                    </div>
+
+                    <div class="tool-desc">
+                        GST வரியை எளிதாக கணக்கிடுங்கள்.
+                    </div>
+
                 </div>
 
                 <span class="tool-tag tag-finance">
@@ -435,21 +442,146 @@
 
             </a>
 
-            <!-- Federal Tax -->
-            <a href="/FederalTax/Index" class="tool-card">
+            <!-- Currency -->
+            <a href="/Currency/Index"
+                   class="tool-card">
 
-                <span class="tool-icon">💰</span>
+                <div>
 
-                <div class="tool-name">
-                    Federal Tax
-                </div>
+                    <div class="tool-icon">💱</div>
 
-                <div class="tool-desc">
-                    Estimate federal income tax instantly
+                    <div class="tool-name">
+                        Currency Converter
+                    </div>
+
+                    <div class="tool-desc">
+                        Convert global currencies instantly with live rates.
+                    </div>
+
                 </div>
 
                 <span class="tool-tag tag-finance">
-                    Finance
+                    CURRENCY
+                </span>
+
+            </a>
+
+            <!-- BMI -->
+            <a href="/Bmi/Index"
+                   class="tool-card">
+
+                <div>
+
+                    <div class="tool-icon">⚖️</div>
+
+                    <div class="tool-name">
+                        BMI Calculator
+                    </div>
+
+                    <div class="tool-desc">
+                        Check your Body Mass Index and health status.
+                    </div>
+
+                </div>
+
+                <span class="tool-tag tag-health">
+                    HEALTH
+                </span>
+
+            </a>
+
+            <!-- Unit -->
+            <a href="/Unit/Index"
+                   class="tool-card">
+
+                <div>
+
+                    <div class="tool-icon">🔢</div>
+
+                    <div class="tool-name">
+                        Unit Converter
+                    </div>
+
+                    <div class="tool-desc">
+                        Convert weight, temperature, length and more.
+                    </div>
+
+                </div>
+
+                <span class="tool-tag tag-utility">
+                    UTILITY
+                </span>
+
+            </a>
+
+            <!-- PDF -->
+            <a href="/Pdf/Index"
+                   class="tool-card">
+
+                <div>
+
+                    <div class="tool-icon">📄</div>
+
+                    <div class="tool-name">
+                        Image to PDF
+                    </div>
+
+                    <div class="tool-desc">
+                        Convert images into PDF documents instantly.
+                    </div>
+
+                </div>
+
+                <span class="tool-tag tag-pdf">
+                    PDF
+                </span>
+
+            </a>
+
+            <!-- Horoscope -->
+            <a href="/Horoscope/Index"
+                   class="tool-card">
+
+                <div>
+
+                    <div class="tool-icon">🌟</div>
+
+                    <div class="tool-name">
+                        Horoscope Match
+                    </div>
+
+                    <div class="tool-desc">
+                        திருமண ஜாதக பொருத்தம் பார்க்கலாம்.
+                    </div>
+
+                </div>
+
+                <span class="tool-tag tag-astro">
+                    ASTRO
+                </span>
+
+            </a>
+
+            <!-- News -->
+            <a href="/News/Index"
+                   class="tool-card">
+
+                <div>
+
+                    <div class="tool-icon">📰</div>
+
+                    <div class="tool-name">
+                        Tamil News
+                    </div>
+
+                    <div class="tool-desc">
+                        Latest Tamil news updates instantly.
+                    </div>
+
+                </div>
+
+                <span class="tool-tag tag-news">
+                    NEWS
                 </span>
 
             </a>
@@ -460,18 +592,10 @@
 
     <footer>
 
-        <div>
-            © 2026 TamilTools — அனைத்தும் இலவசம்
-        </div>
-
-        <div style="margin-top:8px;">
-            <a href="/Home/Privacy">
-                Privacy Policy
-            </a>
-        </div>
+        © 2026 TamilTools — அனைத்தும் இலவசம்
 
     </footer>
-    ```
 
 </body>
+
 </html>

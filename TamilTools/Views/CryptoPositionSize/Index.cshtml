@@ -1,0 +1,559 @@
+﻿@model TamilTools.Models.CryptoPositionSizeViewModel
+
+@{
+    ViewData["Title"] =
+        "Crypto Position Size Calculator - TamilTools";
+
+    ViewData["Description"] =
+        "Free Crypto Position Size Calculator to calculate leverage, stop loss risk, quantity and trade size instantly.";
+
+    ViewData["Keywords"] =
+        "crypto position size calculator, leverage calculator, stop loss calculator, crypto risk calculator, futures calculator";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+
+    <title>
+        @ViewData["Title"]
+    </title>
+
+    <!-- SEO -->
+
+    <meta name="description"
+          content="@ViewData["Description"]" />
+
+    <meta name="keywords"
+          content="@ViewData["Keywords"]" />
+
+    <meta name="robots"
+          content="index, follow" />
+
+    <meta name="author"
+          content="TamilTools" />
+
+    <!-- Open Graph -->
+
+    <meta property="og:title"
+          content="Crypto Position Size Calculator" />
+
+    <meta property="og:description"
+          content="Calculate crypto trading risk, leverage and position size instantly." />
+
+    <meta property="og:type"
+          content="website" />
+
+    <meta property="og:url"
+          content="https://tamiltools.com/CryptoPositionSize" />
+
+    <meta property="og:image"
+          content="https://tamiltools.com/images/crypto-position-size.png" />
+
+    <!-- Twitter -->
+
+    <meta name="twitter:card"
+          content="summary_large_image" />
+
+    <meta name="twitter:title"
+          content="Crypto Position Size Calculator" />
+
+    <meta name="twitter:description"
+          content="Free crypto risk management and position size calculator." />
+
+    <!-- Canonical -->
+
+    <link rel="canonical"
+          href="https://tamiltools.com/CryptoPositionSize" />
+
+    <style>
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI',sans-serif;
+                min-height: 100vh;
+                background: radial-gradient(circle at top left,#1e293b 0%,#020617 45%), linear-gradient(135deg,#020617,#0f172a);
+                color: white;
+                padding: 50px 20px;
+                overflow-x: hidden;
+            }
+
+            .container {
+                max-width: 1100px;
+                margin: auto;
+            }
+
+            .home-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 22px;
+                border-radius: 16px;
+                background: rgba(255,255,255,0.08);
+                border: 1px solid rgba(255,255,255,0.08);
+                color: white;
+                text-decoration: none;
+                font-size: 18px;
+                font-weight: 700;
+                margin-bottom: 24px;
+                transition: 0.3s;
+            }
+
+                .home-btn:hover {
+                    transform: translateY(-2px);
+                    background: rgba(255,255,255,0.14);
+                }
+
+            .card {
+                background: linear-gradient( 145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03) );
+                border: 1px solid rgba(255,255,255,0.08);
+                backdrop-filter: blur(18px);
+                border-radius: 36px;
+                padding: 55px;
+                box-shadow: 0 20px 80px rgba(0,0,0,0.55);
+                position: relative;
+                overflow: hidden;
+            }
+
+                .card::before {
+                    content: "";
+                    position: absolute;
+                    width: 260px;
+                    height: 260px;
+                    background: radial-gradient( rgba(245,158,11,0.22), transparent );
+                    top: -120px;
+                    right: -100px;
+                    border-radius: 50%;
+                }
+
+            .title {
+                text-align: center;
+                font-size: 64px;
+                font-weight: 900;
+                margin-bottom: 16px;
+                line-height: 1.1;
+                background: linear-gradient( 135deg, #fbbf24, #f97316 );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .subtitle {
+                text-align: center;
+                color: #cbd5e1;
+                font-size: 22px;
+                font-weight: 500;
+                margin-bottom: 50px;
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                gap: 24px;
+            }
+
+            .input-group {
+                margin-bottom: 12px;
+            }
+
+                .input-group label {
+                    display: block;
+                    margin-bottom: 12px;
+                    color: #e2e8f0;
+                    font-size: 18px;
+                    font-weight: 700;
+                    letter-spacing: 0.5px;
+                }
+
+            .form-control {
+                width: 100%;
+                height: 68px;
+                border-radius: 18px;
+                border: 1px solid rgba(255,255,255,0.08);
+                background: rgba(255,255,255,0.05);
+                color: white;
+                font-size: 22px;
+                font-weight: 700;
+                padding: 0 22px;
+                transition: 0.3s;
+                outline: none;
+            }
+
+                .form-control::placeholder {
+                    color: #94a3b8;
+                }
+
+                .form-control:focus {
+                    border-color: #f59e0b;
+                    box-shadow: 0 0 0 5px rgba(245,158,11,0.15);
+                }
+
+            .btn-calc {
+                width: 100%;
+                height: 72px;
+                margin-top: 30px;
+                border: none;
+                border-radius: 22px;
+                background: linear-gradient( 135deg, #f59e0b, #ea580c );
+                color: white;
+                font-size: 24px;
+                font-weight: 900;
+                cursor: pointer;
+                transition: 0.35s;
+                box-shadow: 0 10px 30px rgba(234,88,12,0.35);
+            }
+
+                .btn-calc:hover {
+                    transform: translateY(-3px) scale(1.01);
+                    box-shadow: 0 16px 35px rgba(234,88,12,0.5);
+                }
+
+            .summary-grid {
+                margin-top: 40px;
+                display: grid;
+                grid-template-columns: repeat(4,1fr);
+                gap: 20px;
+            }
+
+            .summary-card {
+                background: rgba(255,255,255,0.06);
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 24px;
+                padding: 30px 20px;
+                text-align: center;
+                transition: 0.3s;
+            }
+
+                .summary-card:hover {
+                    transform: translateY(-5px);
+                    background: rgba(255,255,255,0.09);
+                }
+
+                .summary-card h5 {
+                    color: #cbd5e1;
+                    margin-bottom: 14px;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+
+                .summary-card h2 {
+                    font-size: 42px;
+                    font-weight: 900;
+                }
+
+            .green {
+                color: #22c55e;
+            }
+
+            .orange {
+                color: #f59e0b;
+            }
+
+            .red {
+                color: #ef4444;
+            }
+
+            .seo-content {
+                margin-top: 45px;
+                background: rgba(255,255,255,0.05);
+                border-radius: 30px;
+                padding: 45px;
+                border: 1px solid rgba(255,255,255,0.08);
+                line-height: 1.9;
+            }
+
+                .seo-content h2 {
+                    color: white;
+                    margin-bottom: 16px;
+                    font-size: 42px;
+                    font-weight: 800;
+                }
+
+                .seo-content p {
+                    color: #cbd5e1;
+                    margin-bottom: 24px;
+                    font-size: 20px;
+                    line-height: 1.9;
+                }
+
+            @@media(max-width:768px) {
+
+                .grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .summary-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .card {
+                    padding: 32px 24px;
+                }
+
+                .title {
+                    font-size: 42px;
+                }
+
+                .subtitle {
+                    font-size: 18px;
+                }
+
+                .form-control {
+                    font-size: 18px;
+                }
+
+                .btn-calc {
+                    font-size: 20px;
+                }
+
+                .summary-card h2 {
+                    font-size: 34px;
+                }
+
+                .seo-content h2 {
+                    font-size: 32px;
+                }
+
+                .seo-content p {
+                    font-size: 18px;
+                }
+            }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <a href="/"
+               class="home-btn">
+            ← Home
+        </a>
+
+        <div class="card">
+
+            <h1 class="title">
+                ₿ Position Size Calculator
+            </h1>
+
+            <p class="subtitle">
+                Calculate risk-safe crypto trade size instantly.
+            </p>
+
+            <form method="post">
+
+                <div class="grid">
+
+                    <div class="input-group">
+
+                        <label>
+                            Account Balance ($)
+                        </label>
+
+                        <input type="number"
+                               step="0.01"
+                               asp-for="AccountBalance"
+                               value="@(Model.AccountBalance == 0 ? "" : Model.AccountBalance)"
+                               class="form-control"
+                               placeholder="Enter balance"
+                               required />
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>
+                            Risk Per Trade (%)
+                        </label>
+
+                        <input type="number"
+                               step="0.01"
+                               asp-for="RiskPercent"
+                               value="@(Model.RiskPercent == 0 ? "" : Model.RiskPercent)"
+                               class="form-control"
+                               placeholder="Example: 1"
+                               required />
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>
+                            Entry Price ($)
+                        </label>
+
+                        <input type="number"
+                               step="0.01"
+                               asp-for="EntryPrice"
+                               value="@(Model.EntryPrice == 0 ? "" : Model.EntryPrice)"
+                               class="form-control"
+                               placeholder="Entry price"
+                               required />
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>
+                            Stop Loss Price ($)
+                        </label>
+
+                        <input type="number"
+                               step="0.01"
+                               asp-for="StopLossPrice"
+                               value="@(Model.StopLossPrice == 0 ? "" : Model.StopLossPrice)"
+                               class="form-control"
+                               placeholder="Stop loss"
+                               required />
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>
+                            Leverage (x)
+                        </label>
+
+                        <input type="number"
+                               step="0.01"
+                               asp-for="Leverage"
+                               value="@(Model.Leverage == 0 ? "" : Model.Leverage)"
+                               class="form-control"
+                               placeholder="Example: 10"
+                               required />
+
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        class="btn-calc">
+
+                    Calculate Position Size
+
+                </button>
+
+            </form>
+
+            @if (Model != null &&
+                 Model.PositionSize > 0)
+            {
+                <div class="summary-grid">
+
+                    <div class="summary-card">
+
+                        <h5>
+                            Risk Amount
+                        </h5>
+
+                        <h2 class="orange">
+
+                            $@Model.RiskAmount.ToString("N2")
+
+                        </h2>
+
+                    </div>
+
+                    <div class="summary-card">
+
+                        <h5>
+                            Position Size
+                        </h5>
+
+                        <h2 class="green">
+
+                            $@Model.PositionSize.ToString("N2")
+
+                        </h2>
+
+                    </div>
+
+                    <div class="summary-card">
+
+                        <h5>
+                            Quantity
+                        </h5>
+
+                        <h2 class="green">
+
+                            @Model.Quantity.ToString("N4")
+
+                        </h2>
+
+                    </div>
+
+                    <div class="summary-card">
+
+                        <h5>
+                            Max Loss
+                        </h5>
+
+                        <h2 class="red">
+
+                            $@Model.MaxLoss.ToString("N2")
+
+                        </h2>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+        <!-- SEO Content -->
+
+        <div class="seo-content">
+
+            <h2>
+                What is Crypto Position Size Calculator?
+            </h2>
+
+            <p>
+                Crypto Position Size Calculator helps traders manage risk by calculating the correct trade size based on account balance, stop loss and leverage.
+            </p>
+
+            <h2>
+                Why use Position Size Calculator?
+            </h2>
+
+            <p>
+                Proper risk management is one of the most important parts of successful crypto trading. This tool helps avoid over-risking trades.
+            </p>
+
+            <h2>
+                Features
+            </h2>
+
+            <p>
+                • Risk management calculator
+                <br />
+                • Futures leverage calculation
+                <br />
+                • Quantity calculation
+                <br />
+                • Stop loss based position sizing
+                <br />
+                • Mobile friendly interface
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

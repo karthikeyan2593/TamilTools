@@ -1,0 +1,373 @@
+﻿@model TamilTools.Models.LiquidationPriceViewModel
+
+@{
+    ViewData["Title"] = "Liquidation Price Calculator";
+    ViewData["Description"] = "Free Crypto Liquidation Price Calculator. Calculate futures liquidation price, leverage risk and margin safety instantly.";
+}
+
+@section Head {
+
+    <meta name="description"
+          content="Free Crypto Liquidation Price Calculator. Calculate futures liquidation price, leverage risk and margin safety instantly." />
+
+    <meta name="keywords"
+          content="liquidation calculator, crypto liquidation calculator, leverage calculator, futures calculator" />
+
+    <meta name="robots"
+          content="index, follow" />
+
+    <meta property="og:title"
+          content="Liquidation Price Calculator" />
+
+    <meta property="og:description"
+          content="Calculate crypto futures liquidation price instantly." />
+
+    <meta property="og:type"
+          content="website" />
+
+    <meta name="twitter:card"
+          content="summary_large_image" />
+
+}
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI',sans-serif;
+        background: linear-gradient( 135deg, #020617, #0f172a, #111827 );
+        min-height: 100vh;
+        color: white;
+        padding: 40px 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .home-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: white;
+        background: rgba(255,255,255,0.08);
+        padding: 14px 20px;
+        border-radius: 14px;
+        margin-bottom: 24px;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+
+        .home-btn:hover {
+            background: rgba(255,255,255,0.16);
+        }
+
+    .card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        backdrop-filter: blur(20px);
+        border-radius: 34px;
+        padding: 50px;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+    }
+
+    .title {
+        text-align: center;
+        font-size: 64px;
+        font-weight: 900;
+        margin-bottom: 12px;
+        color: #f59e0b;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #cbd5e1;
+        font-size: 22px;
+        margin-bottom: 50px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 28px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 14px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #f8fafc;
+    }
+
+    .form-control {
+        width: 100%;
+        height: 78px;
+        border: none;
+        outline: none;
+        border-radius: 20px;
+        padding: 0 24px;
+        background: rgba(255,255,255,0.07);
+        color: white;
+        font-size: 26px;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+
+        .form-control:focus {
+            border: 2px solid #f59e0b;
+            box-shadow: 0 0 25px rgba(245,158,11,0.35);
+        }
+
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+    select.form-control {
+        cursor: pointer;
+    }
+
+    .btn-calc {
+        width: 100%;
+        height: 82px;
+        border: none;
+        border-radius: 24px;
+        margin-top: 40px;
+        background: linear-gradient( 135deg, #f59e0b, #ea580c );
+        color: white;
+        font-size: 28px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 12px 35px rgba(234,88,12,0.45);
+    }
+
+        .btn-calc:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 45px rgba(234,88,12,0.55);
+        }
+
+    .result-box {
+        margin-top: 45px;
+        background: linear-gradient( 135deg, rgba(245,158,11,0.15), rgba(239,68,68,0.15) );
+        border: 1px solid rgba(245,158,11,0.25);
+        border-radius: 30px;
+        padding: 45px;
+        text-align: center;
+    }
+
+        .result-box h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #f8fafc;
+        }
+
+        .result-box h1 {
+            font-size: 88px;
+            color: #ef4444;
+            font-weight: 900;
+        }
+
+    .seo-box {
+        margin-top: 40px;
+        background: rgba(255,255,255,0.04);
+        padding: 40px;
+        border-radius: 26px;
+        line-height: 1.9;
+    }
+
+        .seo-box h2 {
+            margin-bottom: 18px;
+            color: #f59e0b;
+            font-size: 38px;
+        }
+
+        .seo-box p {
+            color: #cbd5e1;
+            font-size: 20px;
+        }
+
+    @@media(max-width:768px) {
+
+        .grid {
+            grid-template-columns: 1fr;
+        }
+
+        .title {
+            font-size: 42px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+        }
+
+        .card {
+            padding: 28px;
+        }
+
+        .form-control {
+            height: 68px;
+            font-size: 22px;
+        }
+
+        .btn-calc {
+            height: 72px;
+            font-size: 24px;
+        }
+
+        .result-box h1 {
+            font-size: 56px;
+        }
+
+        .seo-box h2 {
+            font-size: 28px;
+        }
+
+        .seo-box p {
+            font-size: 17px;
+        }
+    }
+
+</style>
+
+<div class="container">
+
+    <a href="/"
+           class="home-btn">
+
+        ← Home
+
+    </a>
+
+    <div class="card">
+
+        <h1 class="title">
+            ⚠️ Liquidation Calculator
+        </h1>
+
+        <p class="subtitle">
+            Calculate crypto futures liquidation price instantly.
+        </p>
+
+        <form method="post">
+
+            <div class="grid">
+
+                <div class="input-group">
+
+                    <label>
+                        Entry Price ($)
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           asp-for="EntryPrice"
+                           value="@(Model?.EntryPrice == 0 ? "" : Model?.EntryPrice)"
+                           class="form-control"
+                           placeholder="Enter entry price"
+                           required />
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+                        Margin ($)
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           asp-for="Margin"
+                           value="@(Model?.Margin == 0 ? "" : Model?.Margin)"
+                           class="form-control"
+                           placeholder="Enter margin amount"
+                           required />
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+                        Leverage (x)
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           asp-for="Leverage"
+                           value="@(Model?.Leverage == 0 ? "" : Model?.Leverage)"
+                           class="form-control"
+                           placeholder="Example: 10"
+                           required />
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+                        Position Type
+                    </label>
+
+                    <select asp-for="PositionType"
+                            class="form-control">
+
+                        <option value="Long">
+                            Long
+                        </option>
+
+                        <option value="Short">
+                            Short
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button type="submit"
+                    class="btn-calc">
+
+                Calculate Liquidation
+
+            </button>
+
+        </form>
+
+        @if (Model != null &&
+             Model.LiquidationPrice > 0)
+        {
+            <div class="result-box">
+
+                <h3>
+                    Estimated Liquidation Price
+                </h3>
+
+                <h1>
+                    $@Model.LiquidationPrice.ToString("N2")
+                </h1>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="seo-box">
+
+        <h2>
+            What is Liquidation Price?
+        </h2>
+
+        <p>
+            Liquidation price is the price level where your leveraged crypto futures trade automatically closes because of insufficient margin balance. Traders use liquidation calculators to manage leverage risk, protect capital and avoid major losses during market volatility.
+        </p>
+
+    </div>
+
+</div>
